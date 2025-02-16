@@ -1,0 +1,13 @@
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+PCA_Figures
+UniqueSputum_Figures
+ProbeTest3_Mtb.Expression.Gene.Data.SCALED.TPM.csv
+ProbeTest3_Pipeline.Summary.Details.csv
+ProbeTest4_Mtb.Expression.Gene.Data.SCALED.TPM.csv
+ProbeTest4_Pipeline.Summary.Details.csv
+ProbeTest5_Mtb.Expression.Gene.Data.SCALED.TPM.csv
+ProbeTest5_Mtb.Expression.Gene.Data.TPM.csv
+ProbeTest5_Pipeline.Summary.Details.csv
