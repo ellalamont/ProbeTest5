@@ -24,7 +24,8 @@ library(ggcorrplot)
 library(ggfortify) # To make pca plots with plotly
 library(scales) # To add commas to the y axis... scale_y_continuous(label=comma, )
 
-
+################################################
+################### Colors #####################
 
 cbPalette_1 <- c("#999999", "#E69F00") # Gold and Grey
 cbPalette_1.5 <- c("#E69F00", "#999999") # Gold and Grey
@@ -153,3 +154,29 @@ UniqueSputum_tpm <- All_tpm %>% select(all_of(Unique_Sputum))
 UniqueSputum_metadata <- UniqueSputum_pipeSummary # %>% select(2, 14:30)
 # Adjust the metadata names so they are the same
 rownames(UniqueSputum_metadata) <- UniqueSputum_metadata[,1] # add the rownames
+
+
+###########################################################
+############ TPM: IMPORT PROBETEST5 NOT SCALED ############
+
+ProbeTest5_tpm_NOTscaled <- read.csv("ProbeTest5_Mtb.Expression.Gene.Data.TPM.csv")
+
+
+
+
+###########################################################
+########### TPM: EXTRACT JUST THE BROTH SAMPLES ###########
+
+# Keep the broth samples only
+Broth_tpm <- All_tpm %>% select(contains("Broth"))
+
+# Grab AllSputum metadata
+Broth_metadata <- All_pipeSummary %>% 
+  filter(grepl("Broth", SampleID)) %>%
+  select(where(~!all(is.na(.)))) %>% # Removing all the columns that are all NA
+  mutate(Probe = str_replace_all(Probe, c("JA2"="Captured", "None"="Not captured"))) # Changing what's in the Probe column
+rownames(Broth_metadata) <- Broth_metadata[,1] # add the rownames
+
+
+
+
