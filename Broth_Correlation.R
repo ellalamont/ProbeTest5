@@ -116,6 +116,10 @@ ScatterCorr <- Broth_tpm_Log10 %>%
   my_plot_themes
 ScatterCorr
 ggplotly(ScatterCorr)
+ggsave(ScatterCorr,
+       file = paste0(Sample1, "_ComparedTo_", Sample2, "_v2.pdf"),
+       path = "Correlation_Figures/Broth_Correlations",
+       width = 7, height = 5, units = "in")
 
 
 ScatterCorr <- Broth_tpm %>% 
