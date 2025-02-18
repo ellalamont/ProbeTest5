@@ -94,7 +94,7 @@ All_pipeSummary <- All_pipeSummary %>% mutate(Sputum_Number = str_extract(Sample
 
 
 ###########################################################
-############# EXTRACT JUST THE SPUTUM SAMPLES #############
+####### PIPE SUMMARY: EXTRACT JUST THE SPUTUM SAMPLES #####
 
 AllSputum_pipeSummary <- All_pipeSummary %>% filter(Sample_Type == "Sputum")
 
@@ -108,6 +108,26 @@ AllSputum_pipeSummary <- All_pipeSummary %>% filter(Sample_Type == "Sputum")
 Unique_Sputum <- c("S_250754", "S_354851_DualrRNA", "S_355466", "S_503557", "S_503917_DualrRNA", "S_349942_DualrRNA", "S_503937", "S_575533_MtbrRNA", "S_577208", "S_351946_Probe_4A_100", "S_575540_DualrRNA", "S_687338_Probe_4A_100")
 
 UniqueSputum_pipeSummary <- AllSputum_pipeSummary %>% filter(SampleID %in% Unique_Sputum)
+
+###############################################################
+####### PIPE SUMMARY: EXTRACT LIMIT OF DETECTION SAMPLES ######
+
+LimitofDetect_pipeSummary <- All_pipeSummary %>% 
+  filter(Sample_Type == "THP1") %>% 
+  filter(Ra_cells != "none") %>% 
+  filter(Probe != "None") %>%
+  mutate(Ra_cells2 = case_when(
+    Ra_cells == "one_e_2" ~ "1e2",
+    Ra_cells == "one_e_3" ~ "1e3",
+    Ra_cells == "one_e_4" ~ "1e4",
+    Ra_cells == "one_e_5" ~ "1e5",
+    Ra_cells == "one_e_6" ~ "1e6",
+    Ra_cells == "one_e_8" ~ "1e8",
+    TRUE ~ "default_value"  # this is optional for values that don't meet any condition
+  ))
+  
+# Should maybe go back and remove all the 1e6 cells that are not specifically for the limit of detection, but not doing that right now.
+# Or what might be easier is just include the samples from ProbeTest5, where I have at least 3 replicates each! 
 
 ###########################################################
 ############ IMPORT AND PROCESS ALL TPM VALUES ############
@@ -137,10 +157,10 @@ All_tpm <- All_tpm[,-1] # Remove the old column of rownames
 rownames(my_metadata) <- my_metadata[,1] # add the rownames
 # my_metadata <- my_metadata[,-1] # Remove the old column of rownames
 
-Error in `.rowNamesDF<-`(x, value = value) : 
-  duplicate 'row.names' are not allowed
-In addition: Warning message:
-  non-unique value when setting 'row.names': ‘THP1_1e6_4’ 
+# Error in `.rowNamesDF<-`(x, value = value) : 
+#   duplicate 'row.names' are not allowed
+# In addition: Warning message:
+#   non-unique value when setting 'row.names': ‘THP1_1e6_4’ 
 
 
 ###########################################################
@@ -160,8 +180,11 @@ rownames(UniqueSputum_metadata) <- UniqueSputum_metadata[,1] # add the rownames
 ############ TPM: IMPORT PROBETEST5 NOT SCALED ############
 
 ProbeTest5_tpm_NOTscaled <- read.csv("ProbeTest5_Mtb.Expression.Gene.Data.TPM.csv")
-
-
+ProbeTest5_tpm_NOTscaled$Undetermined_S0 <- NULL
+# Adjust the names so they are slightly shorter
+names(ProbeTest5_tpm_NOTscaled) <- gsub(x = names(ProbeTest5_tpm_NOTscaled), pattern = "_S.*", replacement = "") # This regular expression removes the _S and everything after it (I think...)
+rownames(ProbeTest5_tpm_NOTscaled) <- ProbeTest5_tpm_NOTscaled[,1] # add the rownames
+ProbeTest5_tpm_NOTscaled <- ProbeTest5_tpm_NOTscaled[,-1] # Remove the old column of rownames
 
 
 ###########################################################
@@ -176,6 +199,9 @@ Broth_metadata <- All_pipeSummary %>%
   select(where(~!all(is.na(.)))) %>% # Removing all the columns that are all NA
   mutate(Probe = str_replace_all(Probe, c("JA2"="Captured", "None"="Not captured"))) # Changing what's in the Probe column
 rownames(Broth_metadata) <- Broth_metadata[,1] # add the rownames
+
+# Do the same for the NOTscaled tpm
+Broth_tpm_NOTscaled <- ProbeTest5_tpm_NOTscaled %>% select(contains("Broth"))
 
 
 
