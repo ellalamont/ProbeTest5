@@ -18,3 +18,5 @@ ProbeTest5_Mtb.Expression.Gene.Data.RPKM.csv
 ProbeTest5_Mtb.Expression.Gene.Data.ReadsM.csv
 ProbeTest5_Mtb.Expression.Gene.Data.SCALED.RPKM.csv
 ProbeTest5_Mtb.Expression.Gene.Data.SCALED.ReadsM.csv
+Diff_alignments_Figures
+EL_DifferentAlignments_Summary_byhand.csv

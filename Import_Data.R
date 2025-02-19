@@ -227,4 +227,16 @@ Broth_tpm_NOTscaled <- ProbeTest5_tpm_NOTscaled %>% select(contains("Broth"))
 
 
 
+###########################################################
+############# SPUTUM ALIGN TO MULTIPLE GENOMES ############
+
+# This isn't actually any samples from ProbeTest5, work was done on lenovo under EL_UniqueSputum, but doing it here because this is where I'm working right now
+
+Diff_alignments <- read.csv2("EL_DifferentAlignments_Summary_byhand.csv", sep = ",")
+
+# order the Genome_Alignment
+ordered_Genome <- c("H37Rv", "Clin1", "CG24", "Mada116")
+Diff_alignments$Genome_Alignment <- factor(Diff_alignments$Genome_Alignment, levels = ordered_Genome)
+
+
 

@@ -169,13 +169,13 @@ ScatterCorr_RPKM
 
 Sample1 <- "H37Ra_Broth_3" # Captured
 Sample2 <- "H37Ra_Broth_4" # Not Captured
-ScatterCorr_ReadsM <- Broth_ReadsM_Log10 %>% 
+ScatterCorr_ReadsM <- Broth_ReadsM %>% 
   ggplot(aes(x = .data[[Sample1]], y = .data[[Sample2]])) + 
   geom_point(aes(text = Gene), alpha = 0.8, size = 2, color = "black") +
   geom_abline(slope = 1, intercept = 0, linetype = "solid", color = "blue") + 
   labs(title = paste0(Sample1, " vs ", Sample2),
        subtitle = "Pearson correlation",
-       x = paste0(Sample1, " Log10(ReadsM) CAPTURED"), y = paste0(Sample2, " Log10(ReadsM) NOT captured")) + 
+       x = paste0(Sample1, " (ReadsM) CAPTURED"), y = paste0(Sample2, " (ReadsM) NOT captured")) + 
   stat_cor(method="pearson") + # add a correlation to the plot
   my_plot_themes
 ScatterCorr_ReadsM
