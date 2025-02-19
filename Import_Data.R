@@ -188,6 +188,28 @@ ProbeTest5_tpm_NOTscaled <- ProbeTest5_tpm_NOTscaled[,-1] # Remove the old colum
 
 
 ###########################################################
+############ RPKM and R_M: IMPORT PROBETEST5 ##############
+# Want to see if the broth correlations look different for RPKM or Reads_M values, using scaled for all.
+
+ProbeTest5_RPKM <- read.csv("ProbeTest5_Mtb.Expression.Gene.Data.SCALED.RPKM.csv")
+ProbeTest5_RPKM$Undetermined_S0 <- NULL
+# Adjust the names so they are slightly shorter
+names(ProbeTest5_RPKM) <- gsub(x = names(ProbeTest5_RPKM), pattern = "_S.*", replacement = "") # This regular expression removes the _S and everything after it (I think...)
+rownames(ProbeTest5_RPKM) <- ProbeTest5_RPKM[,1] # add the rownames
+ProbeTest5_RPKM <- ProbeTest5_RPKM %>% rename(Gene = X)
+
+Broth_RPKM <- ProbeTest5_RPKM %>% select(contains("Broth"))
+
+ProbeTest5_ReadsM <- read.csv("ProbeTest5_Mtb.Expression.Gene.Data.SCALED.ReadsM.csv")
+ProbeTest5_ReadsM$Undetermined_S0 <- NULL
+# Adjust the names so they are slightly shorter
+names(ProbeTest5_ReadsM) <- gsub(x = names(ProbeTest5_ReadsM), pattern = "_S.*", replacement = "") # This regular expression removes the _S and everything after it (I think...)
+rownames(ProbeTest5_ReadsM) <- ProbeTest5_ReadsM[,1] # add the rownames
+ProbeTest5_ReadsM <- ProbeTest5_ReadsM %>% rename(Gene = X)
+
+Broth_ReadsM <- ProbeTest5_ReadsM %>% select(contains("Broth"))
+
+###########################################################
 ########### TPM: EXTRACT JUST THE BROTH SAMPLES ###########
 
 # Keep the broth samples only

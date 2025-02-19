@@ -14,3 +14,7 @@ ProbeTest5_Pipeline.Summary.Details.csv
 .DS_Store
 Correlation_Figures
 LimitofDetection_Figures
+ProbeTest5_Mtb.Expression.Gene.Data.RPKM.csv
+ProbeTest5_Mtb.Expression.Gene.Data.ReadsM.csv
+ProbeTest5_Mtb.Expression.Gene.Data.SCALED.RPKM.csv
+ProbeTest5_Mtb.Expression.Gene.Data.SCALED.ReadsM.csv
