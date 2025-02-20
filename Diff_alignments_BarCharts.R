@@ -9,10 +9,15 @@ source("Import_data.R") # to get Diff_alignments
 
 # Note: The N_Genomic is including all the rRNA genes as well, this is why it is a larger number than before!
 
+# Need to know how many genes are in each of these clinical genomes! I will pull from what I find in NCBI now, but not sure if this is correct since on NCBI it says H37Rv has 4008 genes and I know ours has 4499
+# Clin1: 4115
+# CG24: 4115
+# Mada116: 4146
+
 # Plot basics
 my_plot_themes <- theme_bw() +
   theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) +
-  theme(legend.position = "right",legend.text=element_text(size=14),
+  theme(legend.position = "bottom",legend.text=element_text(size=14),
         legend.title = element_text(size = 14),
         plot.title = element_text(size=10), 
         axis.title.x = element_text(size=14), 
@@ -52,6 +57,44 @@ ggsave(AtLeast10Reads_v1,
        file = "DiffAlignments_10Genes.pdf",
        path = "Diff_alignments_Figures",
        width = 7, height = 4, units = "in")
+
+# Make it stacked given the total reads I think there are in each gene
+AtLeast10Reads_v2 <- Diff_alignments %>% 
+  mutate(AtLeast.10.Reads_Percent = case_when(
+    Genome_Alignment == "H37Rv" ~ AtLeast.10.Reads/4499 * 100,
+    Genome_Alignment == "Clin1" ~ AtLeast.10.Reads/4115 * 100,
+    Genome_Alignment == "CG24" ~ AtLeast.10.Reads/4115 * 100,
+    Genome_Alignment == "Mada116" ~ AtLeast.10.Reads/4146 * 100
+  )) %>% 
+  mutate(LessThan.10.Reads_Percent = case_when(
+    Genome_Alignment == "H37Rv" ~ 100 - AtLeast.10.Reads_Percent,
+    Genome_Alignment == "Clin1" ~ 100 - AtLeast.10.Reads_Percent,
+    Genome_Alignment == "CG24" ~ 100 - AtLeast.10.Reads_Percent,
+    Genome_Alignment == "Mada116" ~ 100 - AtLeast.10.Reads_Percent
+  )) %>% 
+  pivot_longer(cols = c("AtLeast.10.Reads_Percent", "LessThan.10.Reads_Percent"),
+               names_to = "Read_Type", 
+               values_to = "N_genes") %>% 
+  mutate(Read_Type = factor(Read_Type, levels = c("LessThan.10.Reads_Percent", "AtLeast.10.Reads_Percent"))) %>% 
+  ggplot(aes(x = Genome_Alignment, y = N_genes, fill = Read_Type)) +
+  geom_bar(stat = "identity", position = "stack", color = "black") +
+  geom_text(aes(label = ifelse(Read_Type == "AtLeast.10.Reads_Percent", 
+                               paste0(round(N_genes), "%"), 
+                               "")),
+            position = position_stack(vjust = 0.98),
+            size = 4) +
+  scale_fill_manual(values=c("#999999", "#56B4E9")) +
+  facet_wrap(~ SampleID) +
+  labs(title = "Sputum samples aligned to different clinical genomes",
+       subtitle = "Using what I found on NCBI to know total number of genes! Not 100% sure",
+       x = "Sputum sample",
+       y = "% genes with at least 10 reads") +
+  my_plot_themes + facet_themes
+AtLeast10Reads_v2
+ggsave(AtLeast10Reads_v2,
+       file = "DiffAlignments_10Genes_Percent.pdf",
+       path = "Diff_alignments_Figures",
+       width = 8, height = 5, units = "in")
 
 
 ###########################################################
