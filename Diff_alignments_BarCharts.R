@@ -9,9 +9,10 @@ source("Import_data.R") # to get Diff_alignments
 
 # Note: The N_Genomic is including all the rRNA genes as well, this is why it is a larger number than before!
 
-# Need to know how many genes are in each of these clinical genomes! I will pull from what I find in NCBI now, but not sure if this is correct since on NCBI it says H37Rv has 4008 genes and I know ours has 4499
-# Clin1: 4115
-# CG24: 4115
+# Need to know how many genes are in each of these clinical genomes! 
+# Made TPM files for each and looked at number of rows
+# Clin1: 4155
+# CG24: 4225
 # Mada116: 4146
 
 # Plot basics
@@ -62,8 +63,8 @@ ggsave(AtLeast10Reads_v1,
 AtLeast10Reads_v2 <- Diff_alignments %>% 
   mutate(AtLeast.10.Reads_Percent = case_when(
     Genome_Alignment == "H37Rv" ~ AtLeast.10.Reads/4499 * 100,
-    Genome_Alignment == "Clin1" ~ AtLeast.10.Reads/4115 * 100,
-    Genome_Alignment == "CG24" ~ AtLeast.10.Reads/4115 * 100,
+    Genome_Alignment == "Clin1" ~ AtLeast.10.Reads/4155 * 100,
+    Genome_Alignment == "CG24" ~ AtLeast.10.Reads/4225 * 100,
     Genome_Alignment == "Mada116" ~ AtLeast.10.Reads/4146 * 100
   )) %>% 
   mutate(LessThan.10.Reads_Percent = case_when(
@@ -86,7 +87,7 @@ AtLeast10Reads_v2 <- Diff_alignments %>%
   scale_fill_manual(values=c("#999999", "#56B4E9")) +
   facet_wrap(~ SampleID) +
   labs(title = "Sputum samples aligned to different clinical genomes",
-       subtitle = "Using what I found on NCBI to know total number of genes! Not 100% sure",
+       subtitle = "Got total number of genes from row number of TPM files",
        x = "Sputum sample",
        y = "% genes with at least 10 reads") +
   my_plot_themes + facet_themes

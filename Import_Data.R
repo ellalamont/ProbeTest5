@@ -58,8 +58,9 @@ options(scipen = 999)
 ############### IMPORT PIPELINE SUMMARY DATA ##############
 # Importing the ProbeTests 3 and 4 and 5 to get all the sputum samples I have done
 
-ProbeTest5_pipeSummary <- read.csv("ProbeTest5_Pipeline.Summary.Details.csv")
+# ProbeTest5_pipeSummary <- read.csv("ProbeTest5_Pipeline.Summary.Details.csv")
 # This has been edited to include more metadata!
+ProbeTest5_pipeSummary <- read.csv("ProbeTest5_Pipeline.Summary.Details_moreTrim.csv") # This has the 3' end trimmed 40bp to increase the number of reads aligning
 ProbeTest4_pipeSummary <- read.csv("ProbeTest4_Pipeline.Summary.Details.csv")
 ProbeTest3_pipeSummary <- read.csv("ProbeTest3_Pipeline.Summary.Details.csv")
 
@@ -132,7 +133,8 @@ LimitofDetect_pipeSummary <- All_pipeSummary %>%
 ###########################################################
 ############ IMPORT AND PROCESS ALL TPM VALUES ############
 
-ProbeTest5_tpm <- read.csv("ProbeTest5_Mtb.Expression.Gene.Data.SCALED.TPM.csv")
+# ProbeTest5_tpm <- read.csv("ProbeTest5_Mtb.Expression.Gene.Data.SCALED.TPM.csv")
+ProbeTest5_tpm <- read.csv("ProbeTest5_Mtb.Expression.Gene.Data.SCALED.TPM_moreTrim.csv") # This has the 3' end trimmed 40bp to increase the number of reads aligning
 ProbeTest4_tpm <- read.csv("ProbeTest4_Mtb.Expression.Gene.Data.SCALED.TPM.csv")
 ProbeTest3_tpm <- read.csv("ProbeTest3_Mtb.Expression.Gene.Data.SCALED.TPM.csv")
 
@@ -179,7 +181,7 @@ rownames(UniqueSputum_metadata) <- UniqueSputum_metadata[,1] # add the rownames
 ###########################################################
 ############ TPM: IMPORT PROBETEST5 NOT SCALED ############
 
-ProbeTest5_tpm_NOTscaled <- read.csv("ProbeTest5_Mtb.Expression.Gene.Data.TPM.csv")
+ProbeTest5_tpm_NOTscaled <- read.csv("ProbeTest5_Mtb.Expression.Gene.Data.TPM_moreTrim.csv")
 ProbeTest5_tpm_NOTscaled$Undetermined_S0 <- NULL
 # Adjust the names so they are slightly shorter
 names(ProbeTest5_tpm_NOTscaled) <- gsub(x = names(ProbeTest5_tpm_NOTscaled), pattern = "_S.*", replacement = "") # This regular expression removes the _S and everything after it (I think...)
@@ -191,7 +193,7 @@ ProbeTest5_tpm_NOTscaled <- ProbeTest5_tpm_NOTscaled[,-1] # Remove the old colum
 ############ RPKM and R_M: IMPORT PROBETEST5 ##############
 # Want to see if the broth correlations look different for RPKM or Reads_M values, using scaled for all.
 
-ProbeTest5_RPKM <- read.csv("ProbeTest5_Mtb.Expression.Gene.Data.SCALED.RPKM.csv")
+ProbeTest5_RPKM <- read.csv("ProbeTest5_Mtb.Expression.Gene.Data.SCALED.RPKM_moreTrim.csv")
 ProbeTest5_RPKM$Undetermined_S0 <- NULL
 # Adjust the names so they are slightly shorter
 names(ProbeTest5_RPKM) <- gsub(x = names(ProbeTest5_RPKM), pattern = "_S.*", replacement = "") # This regular expression removes the _S and everything after it (I think...)
@@ -200,7 +202,7 @@ ProbeTest5_RPKM <- ProbeTest5_RPKM %>% rename(Gene = X)
 
 Broth_RPKM <- ProbeTest5_RPKM %>% select(contains("Broth"))
 
-ProbeTest5_ReadsM <- read.csv("ProbeTest5_Mtb.Expression.Gene.Data.SCALED.ReadsM.csv")
+ProbeTest5_ReadsM <- read.csv("ProbeTest5_Mtb.Expression.Gene.Data.SCALED.ReadsM_moreTrim.csv")
 ProbeTest5_ReadsM$Undetermined_S0 <- NULL
 # Adjust the names so they are slightly shorter
 names(ProbeTest5_ReadsM) <- gsub(x = names(ProbeTest5_ReadsM), pattern = "_S.*", replacement = "") # This regular expression removes the _S and everything after it (I think...)

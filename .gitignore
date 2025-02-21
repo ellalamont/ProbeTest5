@@ -20,3 +20,16 @@ ProbeTest5_Mtb.Expression.Gene.Data.SCALED.RPKM.csv
 ProbeTest5_Mtb.Expression.Gene.Data.SCALED.ReadsM.csv
 Diff_alignments_Figures
 EL_DifferentAlignments_Summary_byhand.csv
+Mtb.Expression.Gene.Data.TPM_CG24.csv
+Mtb.Expression.Gene.Data.TPM_Clin1.csv
+Mtb.Expression.Gene.Data.TPM_MTH37.csv
+Mtb.Expression.Gene.Data.TPM_Mada116.csv
+ProbeTest5_Mtb.Expression.Gene.Data.RPKM_moreTrim.csv
+ProbeTest5_Mtb.Expression.Gene.Data.ReadsM_moreTrim.csv
+ProbeTest5_Mtb.Expression.Gene.Data.SCALED.RPKM_moreTrim.csv
+ProbeTest5_Mtb.Expression.Gene.Data.SCALED.ReadsM_moreTrim.csv
+ProbeTest5_Mtb.Expression.Gene.Data.SCALED.TPM_moreTrim.csv
+ProbeTest5_Mtb.Expression.Gene.Data.TPM_moreTrim.csv
+ProbeTest5_Pipeline.Summary.Details_moreTrim.csv
+JOINED_BobAverages
+Volcano_plot_figures
