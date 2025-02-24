@@ -37,8 +37,8 @@ WeekvsReads_UniqueSputum <- UniqueSputum_pipeSummary %>%
   scale_shape_manual(values=c(`0` = 21, `2` = 22, `4`= 23)) + 
   geom_text_repel(aes(label = format(N_Genomic, big.mark = ",")), size= 3, box.padding = 0.4, segment.color = NA, max.overlaps = Inf) + 
   geom_hline(yintercept = 1000000, linetype = "dashed", alpha = 0.5) + 
-  scale_y_continuous(limits = c(0,5500000), breaks = seq(0, 5500000, 1000000)) +
-  labs(title = "Unique Sputum: Week vs number reads aligned to Mtb",
+  scale_y_continuous(limits = c(0,6000000), breaks = seq(0, 6000000, 1000000)) +
+  labs(title = "Unique Sputum: Week vs number reads aligned to Mtb (normal depletion)",
        subtitle = NULL, 
        x = "Weeks after start of antibiotics", 
        y = "# reads aligning to Mtb genome") + 

@@ -65,7 +65,7 @@ fig_PC1vsPC2 <- my_PCA_df %>%
   scale_shape_manual(values=c(`0` = 21, `2` = 22, `4`= 23)) + 
   # geom_text_repel(aes(label = EukrRNADep), size= 2.5, box.padding = 0.4, segment.color = NA, max.overlaps = Inf) + 
   labs(title = "PCA plot All Unique Sputum",
-       subtitle = "No thresholds",
+       subtitle = "All normal Depletion, no thresholds",
        x = paste0("PC1: ", summary_PCA[1,1], "%"),
        y = paste0("PC2: ", summary_PCA[2,1], "%")) +
   my_plot_themes
@@ -110,9 +110,9 @@ my_PCA <- prcomp(UniqueSputum_1Mreads_tpm_t2, scale = TRUE)
 # See the % Variance explained
 summary(my_PCA)
 summary_PCA <- format(round(as.data.frame(summary(my_PCA)[["importance"]]['Proportion of Variance',]) * 100, digits = 1), nsmall = 1) # format and round used to control the digits after the decimal place
-summary_PCA[1,1] # PC1 explains 33.0% of variance
-summary_PCA[2,1] # PC2 explains 24.1% of variance
-summary_PCA[3,1] # PC3 explains 17.1% of variance
+summary_PCA[1,1] # PC1 explains 36.0% of variance
+summary_PCA[2,1] # PC2 explains 29.7% of variance
+summary_PCA[3,1] # PC3 explains 22.5% of variance
 
 # MAKE PCA PLOT with GGPLOT 
 my_PCA_df <- as.data.frame(my_PCA$x[, 1:3]) # Extract the first 3 PCs
@@ -126,9 +126,9 @@ fig_PC1vsPC2 <- my_PCA_df %>%
   # geom_point(aes(fill = Week, shape = Week), size = 3, alpha = 0.8, stroke = 0.5) + # For thumbnail
   scale_fill_manual(values=c(`0` = "#0072B2", `2` = "#E66900", `4`= "#009E73")) +  
   scale_shape_manual(values=c(`0` = 21, `2` = 22, `4`= 23)) + 
-  geom_text_repel(aes(label = Run), size= 2.5, box.padding = 0.4, segment.color = NA, max.overlaps = Inf) + 
+  # geom_text_repel(aes(label = Run), size= 2.5, box.padding = 0.4, segment.color = NA, max.overlaps = Inf) + 
   labs(title = "PCA plot Unique Sputum",
-       subtitle = "Sputum samples with >1M reads",
+       subtitle = "Sputum samples with >1M reads (Normal depletion)",
        x = paste0("PC1: ", summary_PCA[1,1], "%"),
        y = paste0("PC2: ", summary_PCA[2,1], "%")) +
   my_plot_themes

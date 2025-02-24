@@ -97,16 +97,18 @@ All_pipeSummary <- All_pipeSummary %>% mutate(Sputum_Number = str_extract(Sample
 ###########################################################
 ####### PIPE SUMMARY: EXTRACT JUST THE SPUTUM SAMPLES #####
 
+# NOT including the DualrRNA!!
+
 AllSputum_pipeSummary <- All_pipeSummary %>% filter(Sample_Type == "Sputum")
 
 # Just keep unique sputum samples, the best sequencing results
 # SampleID to Keep:
 # Unique Sputum: 
-# W0 samples: "S_250754", "S_354851_DualrRNA", "S_355466", "S_503557", "S_503917_DualrRNA", 
-# W2 samples: "S_349942_DualrRNA", "S_503937", "S_575533_MtbrRNA", "S_577208"
-# W4 samples: "S_351946_Probe_4A_100", "S_575540_DualrRNA", "S_687338_Probe_4A_100"
+# W0 samples: "S_250754", "S_355466", "S_503557" 
+# W2 samples: "S_349941_Probe_3D_25", "S_503937", "S_575533_MtbrRNA", "S_577208"
+# W4 samples: "S_351946_Probe_4A_100", "S_687338_Probe_4A_100"
 
-Unique_Sputum <- c("S_250754", "S_354851_DualrRNA", "S_355466", "S_503557", "S_503917_DualrRNA", "S_349942_DualrRNA", "S_503937", "S_575533_MtbrRNA", "S_577208", "S_351946_Probe_4A_100", "S_575540_DualrRNA", "S_687338_Probe_4A_100")
+Unique_Sputum <- c("S_250754", "S_355466", "S_503557", "S_349941_Probe_3D_25", "S_503937", "S_575533_MtbrRNA", "S_577208", "S_351946_Probe_4A_100", "S_687338_Probe_4A_100")
 
 UniqueSputum_pipeSummary <- AllSputum_pipeSummary %>% filter(SampleID %in% Unique_Sputum)
 
