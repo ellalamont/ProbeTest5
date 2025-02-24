@@ -132,6 +132,21 @@ LimitofDetect_pipeSummary <- All_pipeSummary %>%
 # Should maybe go back and remove all the 1e6 cells that are not specifically for the limit of detection, but not doing that right now.
 # Or what might be easier is just include the samples from ProbeTest5, where I have at least 3 replicates each! 
 
+
+###############################################################
+######## PIPE SUMMARY: EXTRACT CAPTURED VS NOT SAMPLES ########
+
+# Just get my 6 samples that are matchine
+CapturedVsNot_pipeSummary <- All_pipeSummary %>%
+  filter(Sample_Type == "THP1") %>% 
+  filter(Ra_cells == "one_e_6") %>% 
+  filter(Run == "ProbeTest5") %>%
+  filter(SampleID != "THP1_1e6_4") %>%
+  mutate(Replicates = c("R1","R1","R2","R2","R3", "R3"))
+  
+ordered_Probe <- c("None", "JA2")
+CapturedVsNot_pipeSummary$Probe <- factor(CapturedVsNot_pipeSummary$Probe, levels = ordered_Probe)
+
 ###########################################################
 ############ IMPORT AND PROCESS ALL TPM VALUES ############
 

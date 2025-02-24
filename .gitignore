@@ -33,3 +33,5 @@ ProbeTest5_Mtb.Expression.Gene.Data.TPM_moreTrim.csv
 ProbeTest5_Pipeline.Summary.Details_moreTrim.csv
 JOINED_BobAverages
 Volcano_plot_figures
+CaptureVsNot_Figures
+Pie_Figures
