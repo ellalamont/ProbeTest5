@@ -92,10 +92,10 @@ make_volcano_function <- function(my_df, graph_title) {
 ############### MAKE A SINGLE VOLCANO PLOT ################
 
 my_path <- "Volcano_plot_figures"
-single_plot <- make_volcano_function(list_dfs_2[[1]], df_names[1])
+single_plot <- make_volcano_function(list_dfs_2[[2]], df_names[2])
 single_plot
 ggsave(single_plot,
-       file = paste0(df_names[1], ".pdf"),
+       file = paste0(df_names[2], ".pdf"),
        path = my_path,
        width = 6, height = 4, units = "in")
 ggplotly(single_plot)

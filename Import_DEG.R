@@ -9,14 +9,18 @@
 
 AllBrothCaptured_ComparedTo_AllBrothNOTCaptured <- read.delim("JOINED_BobAverages/MTb.MetaResults.Broth_Captured_vs_NOTCaptured/Broth_captured.MTb.Meta.JOINED.txt")
 
+W2_ComparedTo_W0 <- read.delim("JOINED_BobAverages/MTb.MetaResults.W2_vs_W0/W2.MTb.Meta.JOINED.txt")
+
 
 ###########################################################
 ################ MAKE A LIST OF ALL DFs ###################
 
-list_dfs <- list(AllBrothCaptured_ComparedTo_AllBrothNOTCaptured) 
+list_dfs <- list(AllBrothCaptured_ComparedTo_AllBrothNOTCaptured, 
+                 W2_ComparedTo_W0) 
 
 # Make a list of all the names
-df_names <- c("AllBrothCaptured_ComparedTo_AllBrothNOTCaptured"
+df_names <- c("AllBrothCaptured_ComparedTo_AllBrothNOTCaptured", 
+              "W2_ComparedTo_W0"
 )
 
 # Give the df list the correct df names
