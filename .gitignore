@@ -35,3 +35,13 @@ JOINED_BobAverages
 Volcano_plot_figures
 CaptureVsNot_Figures
 Pie_Figures
+MTb.Biocyc.Pathways.rda
+MTb.GO.BiologicalProcess.rda
+MTb.GO.CellularComponent.rda
+MTb.GO.MolecularFunction.rda
+MTb.KEGG.Pathways.rda
+MTb.Regulons.rda
+MTb.TFOE.Regulons.rda
+MTb.Tuberculist.FunctionalGroups.rda
+MTb.Tuberculist.GO.Ontology.rda
+MTb.iModulons.rda
