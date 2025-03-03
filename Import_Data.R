@@ -261,4 +261,13 @@ ordered_Genome <- c("H37Rv", "Clin1", "CG24", "Mada116")
 Diff_alignments$Genome_Alignment <- factor(Diff_alignments$Genome_Alignment, levels = ordered_Genome)
 
 
+###########################################################
+#################### IMPORT GENE SETS #####################
 
+
+# load("MTb.KEGG.Pathways.rda")
+# names(allGeneSets) <- gsub("<.*", "", names(allGeneSets))
+
+load("MTb.Tuberculist.FunctionalGroups.rda")
+
+# load("MTb.Biocyc.Pathways.rda")
