@@ -132,8 +132,7 @@ LimitofDetect_pipeSummary <- All_pipeSummary %>%
 # Should maybe go back and remove all the 1e6 cells that are not specifically for the limit of detection, but not doing that right now.
 # Or what might be easier is just include the samples from ProbeTest5, where I have at least 3 replicates each! 
 
-# Get the names of the samples with >1M reads
-THP1_1Mreads <- UniqueSputum_metadata %>% filter(N_Genomic > 1000000) %>% pull(SampleID)
+
 
 ###############################################################
 ######## PIPE SUMMARY: EXTRACT CAPTURED VS NOT SAMPLES ########
@@ -175,7 +174,7 @@ my_metadata <- All_pipeSummary %>% select(1, 13:ncol(All_pipeSummary))
 # add rownames to the tpm and metadata dataframes
 rownames(All_tpm) <- All_tpm[,1] # add the rownames
 All_tpm <- All_tpm[,-1] # Remove the old column of rownames
-rownames(my_metadata) <- my_metadata[,1] # add the rownames
+# rownames(my_metadata) <- my_metadata[,1] # add the rownames
 # my_metadata <- my_metadata[,-1] # Remove the old column of rownames
 
 # Error in `.rowNamesDF<-`(x, value = value) : 

@@ -95,7 +95,7 @@ PCA_3D <- plot_ly(my_PCA_df, x = ~PC1, y = ~PC2, z = ~PC3,
                   # colors = c12,
                   # text = ~Replicate
 )
-PCA_3D
+# PCA_3D
 # htmlwidgets::saveWidget(as_widget(PCA_3D), "PCA_3D.html")
 
 
@@ -181,7 +181,7 @@ Samples_1Mread.80PGenes_list <- All_pipeSummary %>%
 
 # Start with ProbeTest5_tpm because I only want the ones in this run
 # Select all the broth and all the sputum that are >1M reads
-mySubset_tpm <- ProbeTest5_tpm %>% 
+mySubset_tpm <- ProbeTest5_tpm_2 %>% 
   select(any_of(Samples_1Mread.80PGenes_list)) %>% # only keep samples with >1M reads
   select(!contains("S_")) # remove the sputum 
   
@@ -198,9 +198,9 @@ my_PCA <- prcomp(mySubset_tpm_t2, scale = TRUE)
 # See the % Variance explained
 summary(my_PCA)
 summary_PCA <- format(round(as.data.frame(summary(my_PCA)[["importance"]]['Proportion of Variance',]) * 100, digits = 1), nsmall = 1) # format and round used to control the digits after the decimal place
-summary_PCA[1,1] # PC1 explains 44.7% of variance
-summary_PCA[2,1] # PC2 explains 11.4% of variance
-summary_PCA[3,1] # PC3 explains 10.3% of variance
+summary_PCA[1,1] # PC1 explains 62.9% of variance
+summary_PCA[2,1] # PC2 explains 17.4% of variance
+summary_PCA[3,1] # PC3 explains 8.0% of variance
 
 # MAKE PCA PLOT with GGPLOT 
 my_PCA_df <- as.data.frame(my_PCA$x[, 1:3]) # Extract the first 3 PCs
