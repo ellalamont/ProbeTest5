@@ -31,7 +31,7 @@ my_plot_themes <- theme_bw() +
         axis.title.y = element_text(size=14),
         axis.text.y = element_text(size=14), 
         plot.subtitle = element_text(size=9), 
-        plot.margin = margin(10, 10, 10, 20),
+        # plot.margin = margin(10, 10, 10, 20),
         panel.background = element_rect(fill='transparent'),
         plot.background = element_rect(fill='transparent', color=NA),
         legend.background = element_rect(fill='transparent'),
@@ -207,3 +207,126 @@ ggsave(ScatterCorr,
        file = paste0("NOTscaled_THP1Spiked1e6_samplesAveraged.CAPTUREDvsNOTCaptured.pdf"),
        path = "Correlation_Figures/THP1Spiked_Correlations",
        width = 7, height = 5, units = "in")
+
+
+###################################################################
+############# AVERAGES GGCORRPLOT NOT logTransformed ##############
+
+# Scaled data but not log transformed
+
+# Start with ProbeTest5_tpm_2
+
+AVERAGE_tpm_scaled <- ProbeTest5_tpm_2 %>% select(Gene, THP1_1e6_1a, THP1_1e6_1b, THP1_1e6_2a, THP1_1e6_2b, THP1_1e6_3a, THP1_1e6_3b) %>%
+  mutate(
+    CAPTURED_THP1Spiked1e6 = rowMeans(select(., c(THP1_1e6_1a, THP1_1e6_2b, THP1_1e6_3a)), na.rm = TRUE),
+    NOTCaptured_THP1Spiked1e6 = rowMeans(select(., c(THP1_1e6_1b, THP1_1e6_2a, THP1_1e6_3b)), na.rm = TRUE),
+  )
+
+Sample1 <- "CAPTURED_THP1Spiked1e6" # Captured
+Sample2 <- "NOTCaptured_THP1Spiked1e6" # Not Captured
+ScatterCorr <- AVERAGE_tpm_scaled %>% 
+  ggplot(aes(x = .data[[Sample1]], y = .data[[Sample2]])) + 
+  geom_point(aes(text = Gene), alpha = 0.8, size = 2, color = "black") +
+  geom_abline(slope = 1, intercept = 0, linetype = "solid", color = "blue") + 
+  # geom_text_repel(aes(label = Gene), size= 0.5, max.overlaps = 3) + 
+  geom_text(aes(label = Gene), size = 2, vjust = -0.5, hjust = 0.5, check_overlap = T) +  
+  labs(title = paste0("NOT Transformed, Yes scaled Samples AVERAGED: ", Sample1, " vs ", Sample2),
+       subtitle = "Pearson correlation",
+       x = paste0("TPM CAPTURED samples averaged"), y = paste0("TPM NOT captured samples averaged")) + 
+  stat_cor(method="pearson") + # add a correlation to the plot
+  scale_x_continuous(limits = c(0,20000), breaks = seq(0, 20000, 4000)) + 
+  scale_y_continuous(limits = c(0,20000), breaks = seq(0, 20000, 4000)) + 
+  my_plot_themes
+ScatterCorr
+# ggplotly(ScatterCorr)
+ggsave(ScatterCorr,
+       file = paste0("NOT.logTrans_THP1Spiked1e6_samplesAveraged.CAPTUREDvsNOTCaptured.pdf"),
+       path = "Correlation_Figures/THP1Spiked_Correlations",
+       width = 7, height = 5, units = "in")
+
+
+#### See what the individual comparisons look like...
+
+Sample1 <- "THP1_1e6_1a" # Captured
+Sample2 <- "THP1_1e6_1b" # Not Captured
+ScatterCorr <- ProbeTest5_tpm_2 %>% 
+  ggplot(aes(x = .data[[Sample1]], y = .data[[Sample2]])) + 
+  geom_point(aes(text = Gene), alpha = 0.8, size = 2, color = "black") +
+  geom_abline(slope = 1, intercept = 0, linetype = "solid", color = "blue") + 
+  # geom_text_repel(aes(label = Gene), size= 0.5, max.overlaps = 3) + 
+  geom_text(aes(label = Gene), size = 2, vjust = -0.5, hjust = 0.5, check_overlap = T) +  
+  labs(title = paste0("NOT Transformed, Yes scaled Samples AVERAGED: ", Sample1, " vs ", Sample2),
+       subtitle = "Pearson correlation",
+       x = paste0(Sample1, " TPM CAPTURED"), y = paste0(Sample2, " TPM NOT captured")) +
+  stat_cor(method="pearson") + # add a correlation to the plot
+  my_plot_themes
+ScatterCorr
+
+Sample1 <- "THP1_1e6_2b" # Captured
+Sample2 <- "THP1_1e6_2a" # Not Captured
+ScatterCorr <- ProbeTest5_tpm_2 %>% 
+  ggplot(aes(x = .data[[Sample1]], y = .data[[Sample2]])) + 
+  geom_point(aes(text = Gene), alpha = 0.8, size = 2, color = "black") +
+  geom_abline(slope = 1, intercept = 0, linetype = "solid", color = "blue") + 
+  # geom_text_repel(aes(label = Gene), size= 0.5, max.overlaps = 3) + 
+  geom_text(aes(label = Gene), size = 2, vjust = -0.5, hjust = 0.5, check_overlap = T) +  
+  labs(title = paste0("NOT Transformed, Yes scaled Samples AVERAGED: ", Sample1, " vs ", Sample2),
+       subtitle = "Pearson correlation",
+       x = paste0(Sample1, " TPM CAPTURED"), y = paste0(Sample2, " TPM NOT captured")) +
+  stat_cor(method="pearson") + # add a correlation to the plot
+  my_plot_themes
+ScatterCorr
+
+
+Sample1 <- "THP1_1e6_3a" # Captured
+Sample2 <- "THP1_1e6_3b" # Not Captured
+ScatterCorr <- ProbeTest5_tpm_2 %>% 
+  ggplot(aes(x = .data[[Sample1]], y = .data[[Sample2]])) + 
+  geom_point(aes(text = Gene), alpha = 0.8, size = 2, color = "black") +
+  geom_abline(slope = 1, intercept = 0, linetype = "solid", color = "blue") + 
+  # geom_text_repel(aes(label = Gene), size= 0.5, max.overlaps = 3) + 
+  geom_text(aes(label = Gene), size = 2, vjust = -0.5, hjust = 0.5, check_overlap = T) +  
+  labs(title = paste0("NOT Transformed, Yes scaled Samples AVERAGED: ", Sample1, " vs ", Sample2),
+       subtitle = "Pearson correlation",
+       x = paste0(Sample1, " TPM CAPTURED"), y = paste0(Sample2, " TPM NOT captured")) +
+  stat_cor(method="pearson") + # add a correlation to the plot
+  my_plot_themes
+ScatterCorr
+
+
+
+###################################################################
+####### AVERAGES GGCORRPLOT NOT logTransformed NOT Scaled #########
+
+# Start with ProbeTest5_tpm_NOTscaled
+ProbeTest5_tpm_NOTscaled$Gene <- rownames(ProbeTest5_tpm_NOTscaled)
+
+AVERAGE_tpm_NOTscaled <- ProbeTest5_tpm_NOTscaled %>% select(Gene, THP1_1e6_1a, THP1_1e6_1b, THP1_1e6_2a, THP1_1e6_2b, THP1_1e6_3a, THP1_1e6_3b) %>%
+  mutate(
+    CAPTURED_THP1Spiked1e6 = rowMeans(select(., c(THP1_1e6_1a, THP1_1e6_2b, THP1_1e6_3a)), na.rm = TRUE),
+    NOTCaptured_THP1Spiked1e6 = rowMeans(select(., c(THP1_1e6_1b, THP1_1e6_2a, THP1_1e6_3b)), na.rm = TRUE),
+  )
+
+Sample1 <- "CAPTURED_THP1Spiked1e6" # Captured
+Sample2 <- "NOTCaptured_THP1Spiked1e6" # Not Captured
+ScatterCorr <- AVERAGE_tpm_NOTscaled %>% 
+  ggplot(aes(x = .data[[Sample1]], y = .data[[Sample2]])) + 
+  geom_point(aes(text = Gene), alpha = 0.8, size = 2, color = "black") +
+  geom_abline(slope = 1, intercept = 0, linetype = "solid", color = "blue") + 
+  # geom_text_repel(aes(label = Gene), size= 0.5, max.overlaps = 3) + 
+  geom_text(aes(label = Gene), size = 2, vjust = -0.5, hjust = 0.5, check_overlap = T) +  
+  labs(title = paste0("NOT Transformed, NOT scaled Samples AVERAGED: ", Sample1, " vs ", Sample2),
+       subtitle = "Pearson correlation",
+       x = paste0("TPM CAPTURED samples averaged"), y = paste0("TPM NOT captured samples averaged")) + 
+  stat_cor(method="pearson") + # add a correlation to the plot
+  scale_x_continuous(limits = c(0,14000), breaks = seq(0, 14000, 2000)) + 
+  scale_y_continuous(limits = c(0,14000), breaks = seq(0, 14000, 2000)) + 
+  my_plot_themes
+ScatterCorr
+# ggplotly(ScatterCorr)
+ggsave(ScatterCorr,
+       file = paste0("NOTscaled_NOT.logTrans_THP1Spiked1e6_samplesAveraged.CAPTUREDvsNOTCaptured.pdf"),
+       path = "Correlation_Figures/THP1Spiked_Correlations",
+       width = 7, height = 5, units = "in")
+
+
