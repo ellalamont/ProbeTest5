@@ -2,20 +2,14 @@
 # E. Lamont
 # 2/16/25
 
-source("Import_data.R") # to get ProbeTest5_tpm
+source("Import_data.R") # to get THP1Spike_tpm_CorrectScales
 
-# Process the data a little more (not done in import data)
-ProbeTest5_tpm_2 <- ProbeTest5_tpm
-# Adjust the names so they are slightly shorter
-names(ProbeTest5_tpm_2) <- gsub(x = names(ProbeTest5_tpm_2), pattern = "_S.*", replacement = "") # This regular expression removes the _S and everything after it
-# add rownames to the tpm and metadata dataframes
-rownames(ProbeTest5_tpm_2) <- ProbeTest5_tpm_2[,1] # add the rownames
-ProbeTest5_tpm_2 <- ProbeTest5_tpm_2[,-1] # Remove the old column of rownames
-# Need to make sure there is a Gene column (gets lost)
-ProbeTest5_tpm_2$Gene <- rownames(ProbeTest5_tpm_2)
+# Want the captured samples to be scaled and the not captured samples to be not scaled
+# Captured = "THP1_1e6_1a", "THP1_1e6_2b", "THP1_1e6_3a" 
+# Not Captured = "THP1_1e6_1b", "THP1_1e6_2a", "THP1_1e6_3b" 
 
 # Log10 transform the data
-ProbeTest5_tpm_Log10 <- ProbeTest5_tpm_2 %>% 
+THP1Spike_tpm_CorrectScales_Log10 <- THP1Spike_tpm_CorrectScales %>% 
   mutate(across(where(is.numeric), ~ .x + 1)) %>% # Add 1 to all the values
   mutate(across(where(is.numeric), ~ log10(.x))) # Log transform the values
 
@@ -47,8 +41,8 @@ my_plot_themes <- theme_bw() +
 
 CAPvsNOT_ScatterCorr_Function <- function(Sample1, Sample2, my_df) {
   
-  ## Sample1 goes on X-axis and is CAPTURED
-  ## Sample2 goes on Y-axis and is NOT captured
+  ## Sample1 goes on X-axis and is CAPTURED & Scaled
+  ## Sample2 goes on Y-axis and is NOT captured & NOT scaled
   
   ScatterCorr <- my_df %>% 
     # filter(.data[[Sample2]] != 0) %>% # remove all the zeros in the not captured sample and increases the correlation
@@ -57,7 +51,7 @@ CAPvsNOT_ScatterCorr_Function <- function(Sample1, Sample2, my_df) {
     geom_abline(slope = 1, intercept = 0, linetype = "solid", color = "blue") + 
     labs(title = paste0(Sample1, " vs ", Sample2),
          subtitle = "Pearson correlation",
-         x = paste0(Sample1, " Log10(TPM+1) CAPTURED"), y = paste0(Sample2, " Log10(TPM+1) NOT captured")) + 
+         x = paste0(Sample1, " Log10(TPM+1) CAPTURED & scaled"), y = paste0(Sample2, " Log10(TPM+1) NOT captured & NOT scaled")) + 
     stat_cor(method="pearson") + # add a correlation to the plot
     my_plot_themes
   ScatterCorr
@@ -69,80 +63,80 @@ CAPvsNOT_ScatterCorr_Function <- function(Sample1, Sample2, my_df) {
 
 Sample1 <- "THP1_1e6_1a" # Captured
 Sample2 <- "THP1_1e6_1b" # Not Captured
-my_plot <- CAPvsNOT_ScatterCorr_Function(Sample1, Sample2, ProbeTest5_tpm_Log10)
+my_plot <- CAPvsNOT_ScatterCorr_Function(Sample1, Sample2, THP1Spike_tpm_CorrectScales_Log10)
 my_plot
 ggsave(my_plot,
        file = paste0(Sample1, ".CAPTURED_ComparedTo_", Sample2, ".NOTCaptured.pdf"),
-       path = "Correlation_Figures/THP1Spiked_Correlations",
+       path = "Correlation_Figures/THP1Spiked_Correlations_CorrectScales",
        width = 7, height = 5, units = "in")
 
 Sample1 <- "THP1_1e6_2b" # Captured
 Sample2 <- "THP1_1e6_2a" # Not Captured
-my_plot <- CAPvsNOT_ScatterCorr_Function(Sample1, Sample2, ProbeTest5_tpm_Log10)
+my_plot <- CAPvsNOT_ScatterCorr_Function(Sample1, Sample2, THP1Spike_tpm_CorrectScales_Log10)
 my_plot
 ggsave(my_plot,
        file = paste0(Sample1, ".CAPTURED_ComparedTo_", Sample2, ".NOTCaptured.pdf"),
-       path = "Correlation_Figures/THP1Spiked_Correlations",
+       path = "Correlation_Figures/THP1Spiked_Correlations_CorrectScales",
        width = 7, height = 5, units = "in")
 
 
 Sample1 <- "THP1_1e6_3a" # Captured
 Sample2 <- "THP1_1e6_3b" # Not Captured
-my_plot <- CAPvsNOT_ScatterCorr_Function(Sample1, Sample2, ProbeTest5_tpm_Log10)
+my_plot <- CAPvsNOT_ScatterCorr_Function(Sample1, Sample2, THP1Spike_tpm_CorrectScales_Log10)
 my_plot
 ggsave(my_plot,
        file = paste0(Sample1, ".CAPTURED_ComparedTo_", Sample2, ".NOTCaptured.pdf"),
-       path = "Correlation_Figures/THP1Spiked_Correlations",
+       path = "Correlation_Figures/THP1Spiked_Correlations_CorrectScales",
        width = 7, height = 5, units = "in")
 
 ###################################################################
 ####################### SINGLE GGCORRPLOT 1 #######################
-Sample1 <- "THP1_1e6_1a" # Captured
-Sample2 <- "THP1_1e6_1b" # Not Captured
-ScatterCorr <- ProbeTest5_tpm_Log10 %>% 
-  # filter(THP1_1e6_1b != 0) %>% # remove all the zeros in the not captured sample and increases the correlation
-  ggplot(aes(x = .data[[Sample1]], y = .data[[Sample2]])) + 
-  geom_point(aes(text = Gene), alpha = 0.8, size = 2, color = "black") +
-  geom_abline(slope = 1, intercept = 0, linetype = "solid", color = "blue") + 
-  labs(title = paste0(Sample1, " vs ", Sample2),
-       subtitle = "Pearson correlation",
-       x = paste0(Sample1, " Log10(TPM+1) CAPTURED"), y = paste0(Sample2, " Log10(TPM+1) NOT captured")) + 
-  stat_cor(method="pearson") + # add a correlation to the plot
-  my_plot_themes
-ScatterCorr
-# ggplotly(ScatterCorr)
-ggsave(ScatterCorr,
-       file = paste0(Sample1, ".CAPTURED_ComparedTo_", Sample2, ".NOTCaptured.pdf"),
-       path = "Correlation_Figures/THP1Spiked_Correlations",
-       width = 7, height = 5, units = "in")
-
-###################################################################
-####################### SINGLE GGCORRPLOT 2 #######################
-Sample1 <- "THP1_1e6_2b" # Captured
-Sample2 <- "THP1_1e6_2a" # Not Captured
-ScatterCorr <- ProbeTest5_tpm_Log10 %>% 
-  # filter(THP1_1e6_1b != 0) %>% # remove all the zeros in the not captured sample and increases the correlation
-  ggplot(aes(x = .data[[Sample1]], y = .data[[Sample2]])) + 
-  geom_point(aes(text = Gene), alpha = 0.8, size = 2, color = "black") +
-  geom_abline(slope = 1, intercept = 0, linetype = "solid", color = "blue") + 
-  labs(title = paste0(Sample1, " vs ", Sample2),
-       subtitle = "Pearson correlation",
-       x = paste0(Sample1, " Log10(TPM+1) CAPTURED"), y = paste0(Sample2, " Log10(TPM+1) NOT captured")) + 
-  stat_cor(method="pearson") + # add a correlation to the plot
-  my_plot_themes
-ScatterCorr
-# ggplotly(ScatterCorr)
-ggsave(ScatterCorr,
-       file = paste0(Sample1, ".CAPTURED_ComparedTo_", Sample2, ".NOTCaptured.pdf"),
-       path = "Correlation_Figures/THP1Spiked_Correlations",
-       width = 7, height = 5, units = "in")
+# Sample1 <- "THP1_1e6_1a" # Captured
+# Sample2 <- "THP1_1e6_1b" # Not Captured
+# ScatterCorr <- ProbeTest5_tpm_Log10 %>% 
+#   # filter(THP1_1e6_1b != 0) %>% # remove all the zeros in the not captured sample and increases the correlation
+#   ggplot(aes(x = .data[[Sample1]], y = .data[[Sample2]])) + 
+#   geom_point(aes(text = Gene), alpha = 0.8, size = 2, color = "black") +
+#   geom_abline(slope = 1, intercept = 0, linetype = "solid", color = "blue") + 
+#   labs(title = paste0(Sample1, " vs ", Sample2),
+#        subtitle = "Pearson correlation",
+#        x = paste0(Sample1, " Log10(TPM+1) CAPTURED"), y = paste0(Sample2, " Log10(TPM+1) NOT captured")) + 
+#   stat_cor(method="pearson") + # add a correlation to the plot
+#   my_plot_themes
+# ScatterCorr
+# # ggplotly(ScatterCorr)
+# ggsave(ScatterCorr,
+#        file = paste0(Sample1, ".CAPTURED_ComparedTo_", Sample2, ".NOTCaptured.pdf"),
+#        path = "Correlation_Figures/THP1Spiked_Correlations",
+#        width = 7, height = 5, units = "in")
+# 
+# ###################################################################
+# ####################### SINGLE GGCORRPLOT 2 #######################
+# Sample1 <- "THP1_1e6_2b" # Captured
+# Sample2 <- "THP1_1e6_2a" # Not Captured
+# ScatterCorr <- ProbeTest5_tpm_Log10 %>% 
+#   # filter(THP1_1e6_1b != 0) %>% # remove all the zeros in the not captured sample and increases the correlation
+#   ggplot(aes(x = .data[[Sample1]], y = .data[[Sample2]])) + 
+#   geom_point(aes(text = Gene), alpha = 0.8, size = 2, color = "black") +
+#   geom_abline(slope = 1, intercept = 0, linetype = "solid", color = "blue") + 
+#   labs(title = paste0(Sample1, " vs ", Sample2),
+#        subtitle = "Pearson correlation",
+#        x = paste0(Sample1, " Log10(TPM+1) CAPTURED"), y = paste0(Sample2, " Log10(TPM+1) NOT captured")) + 
+#   stat_cor(method="pearson") + # add a correlation to the plot
+#   my_plot_themes
+# ScatterCorr
+# # ggplotly(ScatterCorr)
+# ggsave(ScatterCorr,
+#        file = paste0(Sample1, ".CAPTURED_ComparedTo_", Sample2, ".NOTCaptured.pdf"),
+#        path = "Correlation_Figures/THP1Spiked_Correlations",
+#        width = 7, height = 5, units = "in")
 
 ###################################################################
 ####################### AVERAGES GGCORRPLOT #######################
 
 # Take the average of the spiked capture and the averages of the spiked not capture and see if that is any better
 
-THP1_AVERAGE_tpm_Log10 <- ProbeTest5_tpm_Log10 %>% select(Gene, THP1_1e6_1a, THP1_1e6_1b, THP1_1e6_2a, THP1_1e6_2b, THP1_1e6_3a, THP1_1e6_3b) %>%
+THP1Spike_AVERAGE_tpm_CorrectScales_Log10 <- THP1Spike_tpm_CorrectScales_Log10 %>% select(Gene, THP1_1e6_1a, THP1_1e6_1b, THP1_1e6_2a, THP1_1e6_2b, THP1_1e6_3a, THP1_1e6_3b) %>%
   mutate(
     CAPTURED_THP1Spiked1e6 = rowMeans(select(., c(THP1_1e6_1a, THP1_1e6_2b, THP1_1e6_3a)), na.rm = TRUE),
     NOTCaptured_THP1Spiked1e6 = rowMeans(select(., c(THP1_1e6_1b, THP1_1e6_2a, THP1_1e6_3b)), na.rm = TRUE),
@@ -150,21 +144,21 @@ THP1_AVERAGE_tpm_Log10 <- ProbeTest5_tpm_Log10 %>% select(Gene, THP1_1e6_1a, THP
 
 Sample1 <- "CAPTURED_THP1Spiked1e6" # Captured
 Sample2 <- "NOTCaptured_THP1Spiked1e6" # Not Captured
-ScatterCorr <- THP1_AVERAGE_tpm_Log10 %>% 
+ScatterCorr <- THP1Spike_AVERAGE_tpm_CorrectScales_Log10 %>% 
   # filter(NOTCaptured_THP1Spiked1e6 != 0) %>% # remove all the zeros in the not captured sample and increases the correlation
   ggplot(aes(x = .data[[Sample1]], y = .data[[Sample2]])) + 
   geom_point(aes(text = Gene), alpha = 0.8, size = 2, color = "black") +
   geom_abline(slope = 1, intercept = 0, linetype = "solid", color = "blue") + 
   labs(title = paste0("Samples AVERAGED: ", Sample1, " vs ", Sample2),
-       subtitle = "Pearson correlation",
+       subtitle = "Pearson correlation; Captured Scaled; Not captured Not scaled",
        x = paste0("Log10(TPM+1) CAPTURED samples averaged"), y = paste0("Log10(TPM+1) NOT captured samples averaged")) + 
   stat_cor(method="pearson") + # add a correlation to the plot
   my_plot_themes
 ScatterCorr
-ggplotly(ScatterCorr)
+# ggplotly(ScatterCorr)
 ggsave(ScatterCorr,
        file = paste0("SCALED_THP1Spiked1e6_samplesAveraged.CAPTUREDvsNOTCaptured.pdf"),
-       path = "Correlation_Figures/THP1Spiked_Correlations",
+       path = "Correlation_Figures/THP1Spiked_Correlations_CorrectScales",
        width = 7, height = 5, units = "in")
 
 

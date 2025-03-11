@@ -206,7 +206,29 @@ ProbeTest5_tpm_NOTscaled$Undetermined_S0 <- NULL
 # Adjust the names so they are slightly shorter
 names(ProbeTest5_tpm_NOTscaled) <- gsub(x = names(ProbeTest5_tpm_NOTscaled), pattern = "_S.*", replacement = "") # This regular expression removes the _S and everything after it (I think...)
 rownames(ProbeTest5_tpm_NOTscaled) <- ProbeTest5_tpm_NOTscaled[,1] # add the rownames
-ProbeTest5_tpm_NOTscaled <- ProbeTest5_tpm_NOTscaled[,-1] # Remove the old column of rownames
+ProbeTest5_tpm_NOTscaled <- ProbeTest5_tpm_NOTscaled %>% rename(Gene = X)
+
+
+###########################################################
+####### TPM: EXTRACT CAPTURED VS NOT THP1 SAMPLES #########
+
+# Want the captured samples to be scaled and the not captured samples to be not scaled
+# Captured = "THP1_1e6_1a", "THP1_1e6_2b", "THP1_1e6_3a" 
+# Not Captured = "THP1_1e6_1b", "THP1_1e6_2a", "THP1_1e6_3b" 
+
+# Adjust the names so they are slightly shorter
+names(ProbeTest5_tpm) <- gsub(x = names(ProbeTest5_tpm), pattern = "_S.*", replacement = "") # This regular expression removes the _S and everything after it
+# add rownames to the tpm and metadata dataframes
+rownames(ProbeTest5_tpm) <- ProbeTest5_tpm[,1] # add the rownames
+ProbeTest5_tpm <- ProbeTest5_tpm[,-1] # Remove the old column of rownames
+# Need to make sure there is a Gene column (gets lost)
+ProbeTest5_tpm$Gene <- rownames(ProbeTest5_tpm)
+
+THP1Spike_tpm_CorrectScales <- inner_join(
+  ProbeTest5_tpm %>% select(THP1_1e6_1a, THP1_1e6_2b, THP1_1e6_3a, Gene),
+  ProbeTest5_tpm_NOTscaled %>% select(THP1_1e6_1b, THP1_1e6_2a, THP1_1e6_3b, Gene),
+  by = "Gene"
+)
 
 
 ###########################################################
@@ -246,8 +268,16 @@ rownames(Broth_metadata) <- Broth_metadata[,1] # add the rownames
 
 # Do the same for the NOTscaled tpm
 Broth_tpm_NOTscaled <- ProbeTest5_tpm_NOTscaled %>% select(contains("Broth"))
+Broth_tpm_NOTscaled$Gene <- rownames(Broth_tpm_NOTscaled)
 
+Broth_tpm$Gene <- rownames(Broth_tpm)
 
+# Realized that I am using the not captured as scaled, but it doesn't need to be scaled! Make everything with the scaled captured and the not scaled not captured
+Broth_tpm_CorrectScales <- inner_join(
+  Broth_tpm %>% select(H37Ra_Broth_1, H37Ra_Broth_2, H37Ra_Broth_3, Gene),
+  Broth_tpm_NOTscaled %>% select(H37Ra_Broth_4, H37Ra_Broth_5, H37Ra_Broth_6, Gene),
+  by = "Gene"
+)
 
 ###########################################################
 ############# SPUTUM ALIGN TO MULTIPLE GENOMES ############
