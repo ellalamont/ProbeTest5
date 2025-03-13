@@ -225,6 +225,13 @@ names(All_tpm_NOTscaled) <- gsub(x = names(All_tpm_NOTscaled), pattern = "_S.*",
 rownames(All_tpm_NOTscaled) <- All_tpm_NOTscaled[,1] # add the rownames
 
 
+############################################################
+###### NOT SCALED TPM: EXTRACT JUST THE SPUTUM SAMPLES #####
+
+# Combine the sputum samples only 
+UniqueSputum_tpm_NOTscaled <- All_tpm_NOTscaled %>% select(all_of(Unique_Sputum))
+# write.csv(AllSputum_tpm, "AllSputum_tpm.csv")
+
 ###########################################################
 ############ TPM: ADJUST PROBETEST5 NOT SCALED ############
 
