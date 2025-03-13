@@ -139,7 +139,7 @@ fig_PC1vsPC2
 # ggplotly(fig_PC1vsPC2)
 
 ggsave(fig_PC1vsPC2,
-       file = "PCA_UniqueSputum_1Mreads_PC1vsPC2_NOTscaled.pdf",
+       file = "PCA_UniqueSputum_1Mreads_PC1vsPC2_v2.pdf",
        path = "PCA_Figures",
        width = 7, height = 5, units = "in")
 
