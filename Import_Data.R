@@ -198,16 +198,40 @@ rownames(UniqueSputum_metadata) <- UniqueSputum_metadata[,1] # add the rownames
 # Get the names of the samples with >1M reads
 Unique_Sputum_1Mreads <- UniqueSputum_metadata %>% filter(N_Genomic > 1000000) %>% pull(SampleID)
 
-###########################################################
-############ TPM: IMPORT PROBETEST5 NOT SCALED ############
 
-ProbeTest5_tpm_NOTscaled <- read.csv("ProbeTest5_Mtb.Expression.Gene.Data.TPM_moreTrim.csv")
+
+###########################################################
+###### IMPORT AND PROCESS ALL NOT scaled TPM VALUES #######
+
+# ProbeTest5_tpm <- read.csv("ProbeTest5_Mtb.Expression.Gene.Data.SCALED.TPM.csv")
+ProbeTest5_tpm_NOTscaled <- read.csv("ProbeTest5_Mtb.Expression.Gene.Data.TPM_moreTrim.csv") # This has the 3' end trimmed 40bp to increase the number of reads aligning
+ProbeTest4_tpm_NOTscaled <- read.csv("ProbeTest4_Mtb.Expression.Gene.Data.TPM.csv")
+ProbeTest3_tpm_NOTscaled <- read.csv("ProbeTest3_Mtb.Expression.Gene.Data.TPM.csv")
+
+# Need to remove the undetermined which all share names
 ProbeTest5_tpm_NOTscaled$Undetermined_S0 <- NULL
+ProbeTest4_tpm_NOTscaled$Undetermined_S0 <- NULL
+ProbeTest3_tpm_NOTscaled$Undetermined_S0 <- NULL
+
+# Merge the 3 documents
+All_tpm_NOTscaled <- full_join(ProbeTest5_tpm_NOTscaled, ProbeTest4_tpm_NOTscaled, by = "X")
+All_tpm_NOTscaled <- full_join(All_tpm_NOTscaled, ProbeTest3_tpm_NOTscaled, by = "X")
+All_tpm_NOTscaled <- All_tpm_NOTscaled %>% rename("Gene" = "X")
+
+# Adjust the names so they are slightly shorter
+names(All_tpm_NOTscaled) <- gsub(x = names(All_tpm_NOTscaled), pattern = "_S.*", replacement = "") # This regular expression removes the _S and everything after it (I think...)
+
+# add rownames to the tpm and metadata dataframes
+rownames(All_tpm_NOTscaled) <- All_tpm_NOTscaled[,1] # add the rownames
+
+
+###########################################################
+############ TPM: ADJUST PROBETEST5 NOT SCALED ############
+
 # Adjust the names so they are slightly shorter
 names(ProbeTest5_tpm_NOTscaled) <- gsub(x = names(ProbeTest5_tpm_NOTscaled), pattern = "_S.*", replacement = "") # This regular expression removes the _S and everything after it (I think...)
 rownames(ProbeTest5_tpm_NOTscaled) <- ProbeTest5_tpm_NOTscaled[,1] # add the rownames
 ProbeTest5_tpm_NOTscaled <- ProbeTest5_tpm_NOTscaled %>% rename(Gene = X)
-
 
 ###########################################################
 ####### TPM: EXTRACT CAPTURED VS NOT THP1 SAMPLES #########

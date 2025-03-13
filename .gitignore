@@ -47,3 +47,6 @@ MTb.Tuberculist.GO.Ontology.rda
 MTb.iModulons.rda
 EL_phoP_All.Base.Depth.Calls.csv
 phoP_Figures
+DataFromMark
+ProbeTest3_Mtb.Expression.Gene.Data.TPM.csv
+ProbeTest4_Mtb.Expression.Gene.Data.TPM.csv
