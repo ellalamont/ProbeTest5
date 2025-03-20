@@ -308,3 +308,54 @@ PCA_3D <- my_PCA_df %>%
 PCA_3D
 # htmlwidgets::saveWidget(as_widget(PCA_3D), "PCA_3D.html")
 
+
+###########################################################
+##################### W0 AND BROTH PCA ####################
+
+# 3/20/25 Post Group meeting: What does the PCA look like without W2
+
+# Start with All_tpm_NOTscaled
+# Select all the broth and the W0 sputum samples 
+# W0 samples: "S_250754", "S_355466", "S_503557" 
+mySubset_tpm_NOTscaled <- All_tpm_NOTscaled %>% select(c("H37Ra_Broth_4", "H37Ra_Broth_5", "H37Ra_Broth_6", "S_250754", "S_355466", "S_503557" ))
+
+# Transform the data
+mySubset_tpm_t <- as.data.frame(t(mySubset_tpm_NOTscaled))
+
+# Remove columns that are all zero so the scale works for prcomp
+mySubset_tpm_t2 <- mySubset_tpm_t %>% select_if(colSums(.) != 0)
+
+# Make the actual PCA
+my_PCA <- prcomp(mySubset_tpm_t2, scale = TRUE)
+
+# See the % Variance explained
+summary(my_PCA)
+summary_PCA <- format(round(as.data.frame(summary(my_PCA)[["importance"]]['Proportion of Variance',]) * 100, digits = 1), nsmall = 1) # format and round used to control the digits after the decimal place
+summary_PCA[1,1] # PC1 explains 50.1% of variance
+summary_PCA[2,1] # PC2 explains 23.3% of variance
+summary_PCA[3,1] # PC3 explains 19.5% of variance
+
+# MAKE PCA PLOT with GGPLOT 
+my_PCA_df <- as.data.frame(my_PCA$x[, 1:3]) # Extract the first 3 PCs
+my_PCA_df <- data.frame(SampleID = row.names(my_PCA_df), my_PCA_df)
+my_PCA_df <- merge(my_PCA_df, my_metadata, by = "SampleID", )
+
+fig_PC1vsPC2 <- my_PCA_df %>% 
+  mutate(Labelling = c("Not captured broth", "Not captured broth", "Not captured broth", "W0 sputum", "W0 sputum", "W0 sputum")) %>% # NEED TO CHECK BY HAND THAT THESE ARE CORRECT LABELS!
+  ggplot(aes(x = PC1, y = PC2)) + 
+  geom_point(aes(fill = Labelling, shape = Labelling), size = 6, alpha = 0.8, stroke = 0.8) + 
+  scale_fill_manual(values=c(`W0 sputum` = "#0072B2", `Not captured broth`= "#999999")) +  
+  scale_shape_manual(values=c(`W0 sputum` = 21, `W2 sputum` = 22, `Not captured broth`= 23)) + 
+  # geom_text_repel(aes(label = Run), size= 2.5, box.padding = 0.4, segment.color = NA, max.overlaps = Inf) + 
+  labs(title = "PCA W0 sputum >1M reads with not captured broth",
+       # subtitle = "All normal Depletion, no thresholds",
+       x = paste0("PC1: ", summary_PCA[1,1], "%"),
+       y = paste0("PC2: ", summary_PCA[2,1], "%")) +
+  my_plot_themes
+# my_plot_themes_thumbnail
+fig_PC1vsPC2
+# ggplotly(fig_PC1vsPC2)
+ggsave(fig_PC1vsPC2,
+       file = "PCA_W0_With_Broth_v1.pdf",
+       path = "PCA_Figures",
+       width = 8, height = 5, units = "in")
