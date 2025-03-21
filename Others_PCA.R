@@ -332,11 +332,11 @@ PCA_3D
 # For poster
 fig_PC1vsPC2_poster <- my_PCA_df %>% 
   # mutate(Labelling = c("Not captured broth", "Not captured broth", "Not captured broth", "W0 sputum", "W2 sputum", "W2 sputum", "W0 sputum", "W0 sputum", "W2 sputum")) %>% # NEED TO CHECK BY HAND THAT THESE ARE CORRECT LABELS!
-  mutate(Labelling = c("Not captured broth", "Not captured broth", "Not captured broth", "W0 sputum", "W0 sputum", "W0 sputum", "W2 sputum", "W2 sputum", "W2 sputum")) %>% # NEED TO CHECK BY HAND THAT THESE ARE CORRECT LABELS!
+  mutate(Labelling = c("Bacterial broth", "Bacterial broth", "Bacterial broth", "Week 0 sputum", "Week 0 sputum", "Week 0 sputum", "Week 2 sputum", "Week 2 sputum", "Week 2 sputum")) %>% # NEED TO CHECK BY HAND THAT THESE ARE CORRECT LABELS!
   ggplot(aes(x = PC1, y = PC2)) + 
   geom_point(aes(fill = Labelling, shape = Labelling), size = 6, alpha = 0.8, stroke = 0.8) + 
-  scale_fill_manual(values=c(`W0 sputum` = "#0072B2", `W2 sputum` = "#E66900", `Not captured broth`= "#999999")) +  
-  scale_shape_manual(values=c(`W0 sputum` = 21, `W2 sputum` = 22, `Not captured broth`= 23)) + 
+  scale_fill_manual(values=c(`Week 0 sputum` = "#0072B2", `Week 2 sputum` = "#E66900", `Bacterial broth`= "#999999")) +  
+  scale_shape_manual(values=c(`Week 0 sputum` = 21, `Week 2 sputum` = 22, `Bacterial broth`= 23)) + 
   # geom_text_repel(aes(label = Week), size= 2.5, box.padding = 0.4, segment.color = NA, max.overlaps = Inf) + 
   labs(title = NULL,
        # subtitle = "All normal Depletion, no thresholds",
