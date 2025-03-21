@@ -30,7 +30,7 @@ poster_plot_themes <- theme_bw() +
         plot.title = element_text(size=10), 
         axis.title.x = element_text(size=20), 
         axis.text.x = element_text(angle = 0, size=20, vjust=0, hjust=0.5),
-        axis.title.y = element_text(size=18),
+        axis.title.y = element_text(size=20),
         axis.text.y = element_text(size=20), 
         plot.subtitle = element_text(size=9), 
         plot.margin = margin(10, 10, 10, 20),
@@ -158,22 +158,26 @@ ProbeTest5_LimitofDetect_NumReads_Fig2 <- LimitofDetect_pipeSummary %>%
               add.params = list(size = 0.9)) +  # Size of mean points
   geom_point(alpha = 0.7, position = position_jitter(width = 0.1, seed = 42), size = 1) + 
   geom_hline(yintercept = 1000000, linetype = "dashed", alpha = 0.5) + 
+  annotate("text", x = 5.6, y = 1000000*0.8, label = "1 million", 
+           hjust = 1.1, vjust = -0.5, color = "black") + 
   # scale_y_continuous(limits = c(0,19000000), breaks = seq(0, 19000000, 2000000)) + 
   scale_y_continuous(limits = c(0,20000000), breaks = seq(0, 20000000, 4000000)) + 
-  labs(title = "ProbeTest5 THP1 cells spiked with H37Ra", 
-       subtitle = "Mean with standard deviation", 
+  labs(# title = "ProbeTest5 THP1 cells spiked with H37Ra", 
+       # subtitle = "Mean with standard deviation", 
+      title = NULL, 
+      subtitle = NULL, 
        x = "# bacterial cells", 
-       y = "# reads aligning to Mtb transcriptome") + 
+       y = "# reads aligning to \nMtb transcriptome") + 
   poster_plot_themes
 ProbeTest5_LimitofDetect_NumReads_Fig2
+# ggsave(ProbeTest5_LimitofDetect_NumReads_Fig2,
+#        file = "ProbeTest5_LimitofDetect_NumReads_v2.pdf",
+#        path = "LimitofDetection_Figures",
+#        width = 7, height = 5, units = "in")
 ggsave(ProbeTest5_LimitofDetect_NumReads_Fig2,
-       file = "ProbeTest5_LimitofDetect_NumReads_v2.pdf",
-       path = "LimitofDetection_Figures",
-       width = 7, height = 5, units = "in")
-ggsave(ProbeTest5_LimitofDetect_NumReads_Fig2,
-       file = "ProbeTest5_LimitofDetect_NumReads_v3.pdf",
+       file = "ProbeTest5_LimitofDetect_NumReads_v7.pdf",
        path = "Poster_Figures",
-       width = 7, height = 4.5, units = "in")
+       width = 7.5, height = 4.5, units = "in")
 
 
 ###########################################################

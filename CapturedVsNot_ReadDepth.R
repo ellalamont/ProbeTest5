@@ -76,20 +76,22 @@ WeekvsReads_CapturedVsNot_poster <- CapturedVsNot_pipeSummary %>%
   geom_line(aes(group = Replicates), color = "black", size = 0.5, linetype = "dashed") + 
   geom_text_repel(aes(label = format(N_Genomic, big.mark = ",")), size= 3, box.padding = 0.4, segment.color = NA, max.overlaps = Inf) + 
   geom_hline(yintercept = 1000000, linetype = "dashed", alpha = 0.5) + 
+  annotate("text", x = 2.6, y = 1000000*0.8, label = "1 million", 
+           hjust = 1.1, vjust = -0.5, color = "black") + 
   scale_y_continuous(limits = c(0,20000000), breaks = seq(0, 20000000, 4000000)) +
-  labs(title = "THP1 spiked with 1e6 H37Ra",
-       subtitle = "subtitle to remove", 
+  labs(title = NULL,
+       subtitle = NULL, 
        x = "x axis label to remove", 
-       y = "# reads aligning to Mtb transcriptome") + 
+       y = "# reads aligning to\nMtb transcriptome") + 
   scale_x_discrete(labels = c("None" = "Not captured",
                               "JA2" = "Transcript captured")) + 
   poster_plot_themes
 WeekvsReads_CapturedVsNot_poster
 # ggplotly(WeekvsReads_sputum2)
 ggsave(WeekvsReads_CapturedVsNot_poster,
-       file = "WeekvsReads_CapturedVsNot_poster.pdf",
+       file = "WeekvsReads_CapturedVsNot_poster_v2.pdf",
        path = "Poster_Figures",
-       width = 7, height = 4.5, units = "in")
+       width = 7.5, height = 4.5, units = "in")
 
 
 ###########################################################

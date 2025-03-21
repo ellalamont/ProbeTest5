@@ -30,6 +30,24 @@ my_plot_themes <- theme_bw() +
         legend.box.background = element_blank()
   )
 
+poster_plot_themes <- theme_bw() +
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) +
+  theme(legend.position = "bottom",legend.text=element_text(size=14),
+        legend.title = element_blank(),
+        plot.title = element_text(size=10), 
+        axis.title.x = element_text(size=20), 
+        axis.text.x = element_text(angle = 0, size=20, vjust=0, hjust=0.5),
+        axis.title.y = element_text(size=20),
+        axis.text.y = element_text(size=20), 
+        plot.subtitle = element_text(size=9), 
+        plot.margin = margin(10, 10, 10, 20),
+        panel.background = element_rect(fill='transparent'),
+        plot.background = element_rect(fill='transparent', color=NA),
+        legend.background = element_rect(fill='transparent'),
+        legend.box.background = element_blank()
+  )
+
+
 
 ###########################################################
 ################## ALL ProbeTest5 PCA #####################
@@ -275,7 +293,8 @@ my_PCA_df <- data.frame(SampleID = row.names(my_PCA_df), my_PCA_df)
 my_PCA_df <- merge(my_PCA_df, my_metadata, by = "SampleID", )
 
 fig_PC1vsPC2 <- my_PCA_df %>% 
-  mutate(Labelling = c("Not captured broth", "Not captured broth", "Not captured broth", "W0 sputum", "W2 sputum", "W2 sputum", "W0 sputum", "W0 sputum", "W2 sputum")) %>% # NEED TO CHECK BY HAND THAT THESE ARE CORRECT LABELS!
+  # mutate(Labelling = c("Not captured broth", "Not captured broth", "Not captured broth", "W0 sputum", "W2 sputum", "W2 sputum", "W0 sputum", "W0 sputum", "W2 sputum")) %>% # NEED TO CHECK BY HAND THAT THESE ARE CORRECT LABELS!
+  mutate(Labelling = c("Not captured broth", "Not captured broth", "Not captured broth", "W0 sputum", "W0 sputum", "W0 sputum", "W2 sputum", "W2 sputum", "W2 sputum")) %>% # NEED TO CHECK BY HAND THAT THESE ARE CORRECT LABELS!
   ggplot(aes(x = PC1, y = PC2)) + 
   geom_point(aes(fill = Labelling, shape = Labelling), size = 6, alpha = 0.8, stroke = 0.8) + 
   scale_fill_manual(values=c(`W0 sputum` = "#0072B2", `W2 sputum` = "#E66900", `Not captured broth`= "#999999")) +  
@@ -307,6 +326,35 @@ PCA_3D <- my_PCA_df %>%
   )
 PCA_3D
 # htmlwidgets::saveWidget(as_widget(PCA_3D), "PCA_3D.html")
+
+
+
+# For poster
+fig_PC1vsPC2_poster <- my_PCA_df %>% 
+  # mutate(Labelling = c("Not captured broth", "Not captured broth", "Not captured broth", "W0 sputum", "W2 sputum", "W2 sputum", "W0 sputum", "W0 sputum", "W2 sputum")) %>% # NEED TO CHECK BY HAND THAT THESE ARE CORRECT LABELS!
+  mutate(Labelling = c("Not captured broth", "Not captured broth", "Not captured broth", "W0 sputum", "W0 sputum", "W0 sputum", "W2 sputum", "W2 sputum", "W2 sputum")) %>% # NEED TO CHECK BY HAND THAT THESE ARE CORRECT LABELS!
+  ggplot(aes(x = PC1, y = PC2)) + 
+  geom_point(aes(fill = Labelling, shape = Labelling), size = 6, alpha = 0.8, stroke = 0.8) + 
+  scale_fill_manual(values=c(`W0 sputum` = "#0072B2", `W2 sputum` = "#E66900", `Not captured broth`= "#999999")) +  
+  scale_shape_manual(values=c(`W0 sputum` = 21, `W2 sputum` = 22, `Not captured broth`= 23)) + 
+  # geom_text_repel(aes(label = Week), size= 2.5, box.padding = 0.4, segment.color = NA, max.overlaps = Inf) + 
+  labs(title = NULL,
+       # subtitle = "All normal Depletion, no thresholds",
+       x = paste0("PC1: ", summary_PCA[1,1], "%"),
+       y = paste0("PC2: ", summary_PCA[2,1], "%")) +
+  poster_plot_themes
+# my_plot_themes_thumbnail
+fig_PC1vsPC2_poster
+# ggplotly(fig_PC1vsPC2)
+ggsave(fig_PC1vsPC2_poster,
+       file = "PCA_UniqueSputum1Mreads_With_Broth_v2.pdf",
+       path = "Poster_Figures",
+       width = 7.5, height = 4.5, units = "in")
+
+
+
+
+
 
 
 ###########################################################

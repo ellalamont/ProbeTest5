@@ -39,7 +39,7 @@ poster_plot_themes <- theme_bw() +
         plot.title = element_text(size=10), 
         axis.title.x = element_text(size=20), 
         axis.text.x = element_text(angle = 0, size=20, vjust=0, hjust=0.5),
-        axis.title.y = element_text(size=18),
+        axis.title.y = element_text(size=20),
         axis.text.y = element_text(size=20), 
         plot.subtitle = element_text(size=9), 
         plot.margin = margin(10, 10, 10, 20),
@@ -228,17 +228,17 @@ ScatterCorr_poster <- AVERAGE_tpm_NOTscaled_Log10 %>%
   ggplot(aes(x = .data[[Sample1]], y = .data[[Sample2]])) + 
   geom_point(aes(text = Gene), alpha = 0.55, size = 2, color = "black") +
   geom_abline(slope = 1, intercept = 0, linetype = "solid", color = "blue") + 
-  labs(title = paste0("NOT scaled Samples AVERAGED: ", Sample1, " vs ", Sample2),
-       subtitle = "Pearson correlation",
-       x = paste0("Captured samples Log10(TPM+1)"), y = paste0("Not captured samples Log10(TPM+1)")) + 
+  labs(title = NULL,
+       subtitle = NULL,
+       x = paste0("Captured samples Log10(TPM+1)"), y = paste0("Not captured samples \nLog10(TPM+1)")) + 
   stat_cor(method="pearson") + # add a correlation to the plot
   poster_plot_themes
 ScatterCorr_poster
 # ggplotly(ScatterCorr)
 ggsave(ScatterCorr_poster,
-       file = paste0("NOTscaled_THP1Spiked1e6_samplesAveraged.CAPTUREDvsNOTCaptured.pdf"),
+       file = paste0("NOTscaled_THP1Spiked1e6_samplesAveraged.CAPTUREDvsNOTCaptured_v2.pdf"),
        path = "Poster_Figures",
-       width = 7, height = 4.5, units = "in")
+       width = 7.5, height = 4.5, units = "in")
 
 
 
