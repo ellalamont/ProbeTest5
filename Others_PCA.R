@@ -32,7 +32,7 @@ my_plot_themes <- theme_bw() +
 
 poster_plot_themes <- theme_bw() +
   theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) +
-  theme(legend.position = "right",legend.text=element_text(size=14),
+  theme(legend.position = "none",legend.text=element_text(size=14),
         legend.title = element_blank(),
         plot.title = element_text(size=10), 
         axis.title.x = element_text(size=20), 
@@ -349,7 +349,7 @@ fig_PC1vsPC2_poster
 ggsave(fig_PC1vsPC2_poster,
        file = "PCA_UniqueSputum1Mreads_With_Broth_v2.pdf",
        path = "Poster_Figures",
-       width = 7.5, height = 4.5, units = "in")
+       width = 7, height = 4.5, units = "in")
 
 
 
