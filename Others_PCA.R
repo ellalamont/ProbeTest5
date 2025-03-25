@@ -337,7 +337,7 @@ fig_PC1vsPC2_poster <- my_PCA_df %>%
   geom_point(aes(fill = Labelling, shape = Labelling), size = 6, alpha = 0.8, stroke = 0.8) + 
   scale_fill_manual(values=c(`Week 0 sputum` = "#0072B2", `Week 2 sputum` = "#E66900", `Bacterial broth`= "#999999")) +  
   scale_shape_manual(values=c(`Week 0 sputum` = 21, `Week 2 sputum` = 22, `Bacterial broth`= 23)) + 
-  # geom_text_repel(aes(label = Week), size= 2.5, box.padding = 0.4, segment.color = NA, max.overlaps = Inf) + 
+  # geom_text_repel(aes(label = SampleID), size= 2.5, box.padding = 0.4, segment.color = NA, max.overlaps = Inf) + 
   labs(title = NULL,
        # subtitle = "All normal Depletion, no thresholds",
        x = paste0("PC1: ", summary_PCA[1,1], "%"),
