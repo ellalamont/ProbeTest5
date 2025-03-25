@@ -263,7 +263,7 @@ PCA_3D
 # htmlwidgets::saveWidget(as_widget(PCA_3D), "PCA_3D.html")
 
 ###########################################################
-############### NOT scaled SPUTUM WITH BROTH ##############
+############# NOT scaled >1M SPUTUM WITH BROTH ############
 
 # 3/13/25 : Switching this to be NOT scaled TPM and uncaptured broth only
 
