@@ -317,7 +317,7 @@ ggsave(fig_PC1vsPC2,
 # 3D plot
 # https://plotly.com/r/pca-visualization/
 PCA_3D <- my_PCA_df %>% 
-  mutate(Labelling = c("Not captured broth", "Not captured broth", "Not captured broth", "W0 sputum", "W2 sputum", "W2 sputum", "W0 sputum", "W0 sputum", "W2 sputum")) %>%
+  mutate(Labelling = c("Not captured broth", "Not captured broth", "Not captured broth", "W0 sputum", "W0 sputum", "W0 sputum", "W2 sputum", "W2 sputum", "W2 sputum")) %>%
   plot_ly(x = ~PC1, y = ~PC2, z = ~PC3,
           type = "scatter3d", mode = "markers",
           color = ~Labelling# , 
