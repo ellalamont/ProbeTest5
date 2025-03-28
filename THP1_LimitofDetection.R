@@ -155,7 +155,7 @@ ggsave(ProbeTest5_LimitofDetect_NumReads_Fig1,
 ProbeTest5_LimitofDetect_NumReads_Fig2 <- LimitofDetect_pipeSummary %>% 
   filter(Run == "ProbeTest5") %>% 
   ggerrorplot(x = "Ra_cells2", y = "N_Genomic", desc_stat = "mean_sd", error.plot = "errorbar", add = "mean", color = "black", size = 0.8,  # Size of error bars
-              add.params = list(size = 0.9)) +  # Size of mean points
+              add.params = list(size = 1)) +  # Size of mean points
   geom_point(alpha = 0.7, position = position_jitter(width = 0.1, seed = 42), size = 1) + 
   geom_hline(yintercept = 1000000, linetype = "dashed", alpha = 0.5) + 
   annotate("text", x = 5.6, y = 1000000*0.8, label = "1 million", 

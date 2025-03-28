@@ -71,11 +71,11 @@ ggsave(WeekvsReads_UniqueSputum,
 # For poster
 WeekvsReads_UniqueSputum_poster <- UniqueSputum_pipeSummary %>%
   ggplot(aes(x = Week, y = N_Genomic)) + 
-  geom_point(aes(fill = Week, shape = Week), size = 6, alpha = 0.8, stroke = 0.8, color = "black") + 
+  geom_point(size = 6, alpha = 0.8, stroke = 0.8, color = "black", fill ="black", shape = 21) + 
   # geom_point(aes(fill = Week, shape = Week), size = 3, alpha = 0.8, stroke = 0.5, color = "black") + # For thumbnail
-  scale_fill_manual(values=c(`0` = "#0072B2", `2` = "#E66900", `4`= "#009E73")) +  
-  scale_shape_manual(values=c(`0` = 21, `2` = 22, `4`= 23)) + 
-  geom_text_repel(aes(label = format(N_Genomic, big.mark = ",")), size= 3, box.padding = 0.4, segment.color = NA, max.overlaps = Inf) + 
+  # scale_fill_manual(values=c(`0` = "#0072B2", `2` = "#E66900", `4`= "#009E73")) +  
+  # scale_shape_manual(values=c(`0` = 21, `2` = 22, `4`= 23)) + 
+  # geom_text_repel(aes(label = format(N_Genomic, big.mark = ",")), size= 3, box.padding = 0.4, segment.color = NA, max.overlaps = Inf) + 
   geom_hline(yintercept = 1000000, linetype = "dashed", alpha = 0.5) + 
   annotate("text", x = 3.6, y = 1000000, label = "1 million", 
            hjust = 1.1, vjust = -0.5, color = "black") + 
@@ -88,7 +88,7 @@ WeekvsReads_UniqueSputum_poster <- UniqueSputum_pipeSummary %>%
 WeekvsReads_UniqueSputum_poster
 
 ggsave(WeekvsReads_UniqueSputum_poster,
-       file = paste0("WeekvsReads_UniqueSputum_v2.pdf"),
+       file = paste0("WeekvsReads_UniqueSputum_v3.pdf"),
        path = "Poster_Figures",
        width = 7.5, height = 4.5, units = "in")
 
