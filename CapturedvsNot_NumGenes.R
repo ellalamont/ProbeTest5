@@ -2,7 +2,7 @@
 # E. Lamont
 # 3/7/25
 
-source("Import_data.R") # to get
+source("Import_data.R") # to get CapturedVsNot_pipeSummary
 
 # Plot basics
 my_plot_themes <- theme_bw() +
@@ -47,5 +47,36 @@ counts <- CapturedVsNot_tpm %>%
 result <- 4499-counts # This is how many genes have 0 reads aligning in each!
 # THP1_1e6_1a THP1_1e6_1b THP1_1e6_2a THP1_1e6_2b THP1_1e6_3a THP1_1e6_3b
 # 1          14         265         247          15          12         923
+
+
+###########################################################
+########## ALL CELL NUMBER VS AtLeast.10.Reads ############
+# 4/22/25
+
+#ggerrroplot
+ProbeTest5_CapturedvsNot_10Reads_Fig1 <- CapturedVsNot_pipeSummary %>% 
+  # filter(Run == "ProbeTest5") %>% 
+  ggerrorplot(x = "Probe", y = "AtLeast.10.Reads", desc_stat = "mean_sd", error.plot = "errorbar", add = "mean", color = "black") + 
+  geom_point(alpha = 0.7, position = position_jitter(width = 0.1, seed = 42), size = 1) + 
+  scale_y_continuous(limits = c(0,4500), breaks = seq(0, 4500, 500)) + 
+  geom_hline(yintercept = 4499*0.8, linetype = "dashed", alpha = 0.5) + 
+  annotate("text", x = 0.9, y = 4499*0.8, label = "80%", 
+           hjust = 1.1, vjust = -0.5, color = "black") + 
+  geom_hline(yintercept = 4499*0.5, linetype = "dashed", alpha = 0.5) + 
+  annotate("text", x = 0.9, y = 4499*0.5, label = "50%", 
+           hjust = 1.1, vjust = -0.5, color = "black") + 
+  labs(title = "ProbeTest5 THP1 cells spiked with H37Ra", 
+       subtitle = "Mean with standard deviation", 
+       x = "# spiked in H37Ra cells", 
+       y = "# genes with at least 10 reads aligning") + 
+  scale_x_discrete(labels = c("None" = "Not captured",
+                              "JA2" = "Captured")) + 
+  my_plot_themes
+ProbeTest5_CapturedvsNot_10Reads_Fig1
+ggsave(ProbeTest5_CapturedvsNot_10Reads_Fig1,
+       file = "AtLeast10Reads_CapturedVsNot.pdf",
+       path = "CaptureVsNot_Figures",
+       width = 6, height = 4, units = "in")
+
 
 
