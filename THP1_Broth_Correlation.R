@@ -4,6 +4,10 @@
 
 source("Import_data.R") # to get ProbeTest5_tpm_NOTscaled
 
+# Stop scientific notation
+# options(scipen = 999) 
+options(scipen = 0) # To revert back to default
+
 
 # Plot basics
 my_plot_themes <- theme_bw() +
@@ -63,5 +67,13 @@ ScatterCorr
 # ggplotly(ScatterCorr)
 ggsave(ScatterCorr,
        file = paste0("THP1Spiked1e6_vs_BrothNOTCaptured_Averages.pdf"),
+       path = "Correlation_Figures",
+       width = 7, height = 5, units = "in")
+ggsave(ScatterCorr,
+       file = paste0("THP1Spiked1e6_vs_BrothNOTCaptured_Averages.png"),
+       path = "Correlation_Figures",
+       width = 7, height = 5, units = "in")
+ggsave(ScatterCorr,
+       file = paste0("THP1Spiked1e6_vs_BrothNOTCaptured_Averages.tiff"),
        path = "Correlation_Figures",
        width = 7, height = 5, units = "in")
