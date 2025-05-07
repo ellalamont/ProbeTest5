@@ -57,7 +57,7 @@ WeekvsReads_UniqueSputum <- UniqueSputum_pipeSummary %>%
   labs(title = "Unique Sputum: Week vs number reads aligned to Mtb (normal depletion)",
        subtitle = NULL, 
        x = "Weeks after start of antibiotics", 
-       y = "# reads aligning to \nMtb transcriptome") + 
+       y = "# reads aligning to Mtb transcriptome") + 
   my_plot_themes
 WeekvsReads_UniqueSputum
 
@@ -66,10 +66,15 @@ ggsave(WeekvsReads_UniqueSputum,
        file = "WeekvsReads_UniqueSputum.pdf",
        path = "UniqueSputum_Figures",
        width = 6, height = 4, units = "in")
-ggsave(WeekvsReads_UniqueSputum,
-       file = "WeekvsReads_UniqueSputum.png",
-       path = "UniqueSputum_Figures",
-       width = 6, height = 4, units = "in")
+# ggsave(WeekvsReads_UniqueSputum,
+#        file = "WeekvsReads_UniqueSputum.png",
+#        path = "UniqueSputum_Figures",
+#        width = 6, height = 4, units = "in")
+# ggsave(WeekvsReads_UniqueSputum,
+#        file = "WeekvsReads_UniqueSputum_v2.png",
+#        path = "UniqueSputum_Figures",
+#        dpi = 300,
+#        width = 6, height = 5, units = "in")
 
 
 # For poster

@@ -42,6 +42,11 @@ UniqueSputum_10Genes <- UniqueSputum_pipeSummary %>%
        x = "Weeks after start of antibiotics", 
        y = "# genes with at least 10 reads") + 
   geom_hline(yintercept = 4499*0.8, linetype = "dashed", alpha = 0.5) + 
+  annotate("text", x = 0.7, y = 4499*0.8, label = "80%", 
+           hjust = 1.1, vjust = -0.5, color = "black") + 
+  geom_hline(yintercept = 4499*0.5, linetype = "dashed", alpha = 0.5) + 
+  annotate("text", x = 0.7, y = 4499*0.5, label = "50%", 
+           hjust = 1.1, vjust = -0.5, color = "black") + 
   my_plot_themes
 UniqueSputum_10Genes
 
@@ -49,11 +54,14 @@ ggsave(UniqueSputum_10Genes,
        file = "UniqueSputum_10Genes.pdf",
        path = "UniqueSputum_Figures",
        width = 6, height = 4, units = "in")
-ggsave(UniqueSputum_10Genes,
-       file = "UniqueSputum_10Genes.png",
-       path = "UniqueSputum_Figures",
-       width = 6, height = 4, units = "in")
-
+# ggsave(UniqueSputum_10Genes,
+#        file = "UniqueSputum_10Genes.png",
+#        path = "UniqueSputum_Figures",
+#        width = 6, height = 4, units = "in")
+# ggsave(UniqueSputum_10Genes,
+#        file = "UniqueSputum_10Genes_v2.png",
+#        path = "UniqueSputum_Figures",
+#        width = 6, height = 5, units = "in")
 
 
 
