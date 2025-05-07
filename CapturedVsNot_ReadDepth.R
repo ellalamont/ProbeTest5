@@ -56,7 +56,7 @@ WeekvsReads_CapturedVsNot <- CapturedVsNot_pipeSummary %>%
   labs(title = "THP1 spiked with 1e6 H37Ra",
        subtitle = NULL, 
        x = NULL, 
-       y = "# reads aligning to Mtb genome") + 
+       y = "# reads aligning to Mtb transcriptome") + 
   scale_x_discrete(labels = c("None" = "Not captured",
                               "JA2" = "Captured")) + 
   my_plot_themes
@@ -66,6 +66,11 @@ WeekvsReads_CapturedVsNot
 ggsave(WeekvsReads_CapturedVsNot,
        file = "WeekvsReads_CapturedVsNot.pdf",
        path = "CaptureVsNot_Figures",
+       width = 6, height = 4, units = "in")
+ggsave(WeekvsReads_CapturedVsNot,
+       file = "WeekvsReads_CapturedVsNot.png",
+       path = "CaptureVsNot_Figures",
+       dpi = 300,
        width = 6, height = 4, units = "in")
 
 
