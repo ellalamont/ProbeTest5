@@ -152,34 +152,35 @@ ggsave(my_plot,
 #        width = 7, height = 5, units = "in")
 
 ###################################################################
-####################### AVERAGES GGCORRPLOT #######################
+####################### SCALED AVERAGES GGCORRPLOT ################
+# Commented out because its with scaled data
 
 # Take the average of the spiked capture and the averages of the spiked not capture and see if that is any better
 
-THP1Spike_AVERAGE_tpm_CorrectScales_Log10 <- THP1Spike_tpm_CorrectScales_Log10 %>% select(Gene, THP1_1e6_1a, THP1_1e6_1b, THP1_1e6_2a, THP1_1e6_2b, THP1_1e6_3a, THP1_1e6_3b) %>%
-  mutate(
-    CAPTURED_THP1Spiked1e6 = rowMeans(select(., c(THP1_1e6_1a, THP1_1e6_2b, THP1_1e6_3a)), na.rm = TRUE),
-    NOTCaptured_THP1Spiked1e6 = rowMeans(select(., c(THP1_1e6_1b, THP1_1e6_2a, THP1_1e6_3b)), na.rm = TRUE),
-  )
-
-Sample1 <- "CAPTURED_THP1Spiked1e6" # Captured
-Sample2 <- "NOTCaptured_THP1Spiked1e6" # Not Captured
-ScatterCorr <- THP1Spike_AVERAGE_tpm_CorrectScales_Log10 %>% 
-  # filter(NOTCaptured_THP1Spiked1e6 != 0) %>% # remove all the zeros in the not captured sample and increases the correlation
-  ggplot(aes(x = .data[[Sample1]], y = .data[[Sample2]])) + 
-  geom_point(aes(text = Gene), alpha = 0.8, size = 2, color = "black") +
-  geom_abline(slope = 1, intercept = 0, linetype = "solid", color = "blue") + 
-  labs(title = paste0("Samples AVERAGED: ", Sample1, " vs ", Sample2),
-       subtitle = "Pearson correlation; Captured Scaled; Not captured Not scaled",
-       x = paste0("Log10(TPM+1) CAPTURED samples averaged"), y = paste0("Log10(TPM+1) NOT captured samples averaged")) + 
-  stat_cor(method="pearson") + # add a correlation to the plot
-  my_plot_themes
-ScatterCorr
-# ggplotly(ScatterCorr)
-ggsave(ScatterCorr,
-       file = paste0("SCALED_THP1Spiked1e6_samplesAveraged.CAPTUREDvsNOTCaptured.pdf"),
-       path = "Correlation_Figures/THP1Spiked_Correlations_CorrectScales",
-       width = 7, height = 5, units = "in")
+# THP1Spike_AVERAGE_tpm_CorrectScales_Log10 <- THP1Spike_tpm_CorrectScales_Log10 %>% select(Gene, THP1_1e6_1a, THP1_1e6_1b, THP1_1e6_2a, THP1_1e6_2b, THP1_1e6_3a, THP1_1e6_3b) %>%
+#   mutate(
+#     CAPTURED_THP1Spiked1e6 = rowMeans(select(., c(THP1_1e6_1a, THP1_1e6_2b, THP1_1e6_3a)), na.rm = TRUE),
+#     NOTCaptured_THP1Spiked1e6 = rowMeans(select(., c(THP1_1e6_1b, THP1_1e6_2a, THP1_1e6_3b)), na.rm = TRUE),
+#   )
+# 
+# Sample1 <- "CAPTURED_THP1Spiked1e6" # Captured
+# Sample2 <- "NOTCaptured_THP1Spiked1e6" # Not Captured
+# ScatterCorr <- THP1Spike_AVERAGE_tpm_CorrectScales_Log10 %>% 
+#   # filter(NOTCaptured_THP1Spiked1e6 != 0) %>% # remove all the zeros in the not captured sample and increases the correlation
+#   ggplot(aes(x = .data[[Sample1]], y = .data[[Sample2]])) + 
+#   geom_point(aes(text = Gene), alpha = 0.8, size = 2, color = "black") +
+#   geom_abline(slope = 1, intercept = 0, linetype = "solid", color = "blue") + 
+#   labs(title = paste0("Samples AVERAGED: ", Sample1, " vs ", Sample2),
+#        subtitle = "Pearson correlation; Captured Scaled; Not captured Not scaled",
+#        x = paste0("Log10(TPM+1) CAPTURED samples averaged"), y = paste0("Log10(TPM+1) NOT captured samples averaged")) + 
+#   stat_cor(method="pearson") + # add a correlation to the plot
+#   my_plot_themes
+# ScatterCorr
+# # ggplotly(ScatterCorr)
+# ggsave(ScatterCorr,
+#        file = paste0("SCALED_THP1Spiked1e6_samplesAveraged.CAPTUREDvsNOTCaptured.pdf"),
+#        path = "Correlation_Figures/THP1Spiked_Correlations_CorrectScales",
+#        width = 7, height = 5, units = "in")
 
 
 ###################################################################

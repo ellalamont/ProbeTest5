@@ -84,16 +84,15 @@ ggsave(ScatterCorr,
        file = paste0("THP1Spiked1e6_vs_BrothNOTCaptured_Averages.pdf"),
        path = "Correlation_Figures",
        width = 7, height = 5, units = "in")
-<<<<<<< HEAD
 ggsave(ScatterCorr,
        file = paste0("THP1Spiked1e6_vs_BrothNOTCaptured_Averages.png"),
        path = "Correlation_Figures",
        width = 7, height = 5, units = "in")
 ggsave(ScatterCorr,
-       file = paste0("THP1Spiked1e6_vs_BrothNOTCaptured_Averages.tiff"),
+       file = paste0("THP1Spiked1e6_vs_BrothNOTCaptured_Averages_v2.png"),
        path = "Correlation_Figures",
-       width = 7, height = 5, units = "in")
-=======
+       width = 5, height = 5, units = "in")
+
 
 # For poster
 ScatterCorr_poster <- my_tpm_subset_Log10 %>% 
@@ -112,6 +111,3 @@ ggsave(ScatterCorr_poster,
        path = "Poster_Figures",
        width = 7.5, height = 4.5, units = "in")
 
-
-
->>>>>>> a1ef1ec6d7979fd895036202036ed33baf98881e

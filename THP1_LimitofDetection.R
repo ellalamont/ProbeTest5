@@ -155,7 +155,7 @@ ProbeTest5_LimitofDetect_NumReads_Fig1
 ProbeTest5_LimitofDetect_NumReads_Fig2 <- LimitofDetect_pipeSummary %>% 
   filter(Run == "ProbeTest5") %>% 
   ggerrorplot(x = "Ra_cells2", y = "N_Genomic", desc_stat = "mean_sd", error.plot = "errorbar", add = "mean", color = "black", size = 0.8,  # Size of error bars
-              add.params = list(size = 1)) +  # Size of mean points
+              add.params = list(size = 0.7)) +  # Size of mean points
   geom_point(alpha = 0.7, position = position_jitter(width = 0.1, seed = 42), size = 1) + 
   geom_hline(yintercept = 1000000, linetype = "dashed", alpha = 0.5) + 
   annotate("text", x = 5.6, y = 1000000*0.8, label = "1 million", 
@@ -164,7 +164,7 @@ ProbeTest5_LimitofDetect_NumReads_Fig2 <- LimitofDetect_pipeSummary %>%
   scale_y_continuous(limits = c(0,20000000), breaks = seq(0, 20000000, 4000000)) + 
   labs(title = "ProbeTest5 THP1 cells spiked with H37Ra", 
        subtitle = "Mean with standard deviation", 
-       x = "# bacterial cells", 
+       x = "# H37Ra cells", 
        y = "# reads aligning to Mtb transcriptome") + 
   my_plot_themes
 ProbeTest5_LimitofDetect_NumReads_Fig2
@@ -180,6 +180,10 @@ ggsave(ProbeTest5_LimitofDetect_NumReads_Fig2,
        file = "ProbeTest5_LimitofDetect_NumReads_v2.png",
        path = "LimitofDetection_Figures",
        width = 7, height = 5, units = "in")
+ggsave(ProbeTest5_LimitofDetect_NumReads_Fig2,
+       file = "ProbeTest5_LimitofDetect_NumReads_v3.png",
+       path = "LimitofDetection_Figures",
+       width = 5, height = 5, units = "in")
 
 
 ###########################################################
@@ -286,7 +290,7 @@ ProbeTest5_LimitofDetect_10Reads_Fig1
 ProbeTest5_LimitofDetect_10Reads_Fig2 <- LimitofDetect_pipeSummary %>% 
   filter(Run == "ProbeTest5") %>% 
   ggerrorplot(x = "Ra_cells2", y = "AtLeast.10.Reads", desc_stat = "mean_sd", error.plot = "errorbar", add = "mean", color = "black", size = 0.8,  # Size of error bars
-              add.params = list(size = 1)) +  # Size of mean points
+              add.params = list(size = 0.7)) +  # Size of mean points
   geom_point(alpha = 0.7, position = position_jitter(width = 0.1, seed = 42), size = 1) + 
   scale_y_continuous(limits = c(0,4500), breaks = seq(0, 4500, 500)) + 
   geom_hline(yintercept = 4499*0.8, linetype = "dashed", alpha = 0.5) + 
@@ -297,7 +301,7 @@ ProbeTest5_LimitofDetect_10Reads_Fig2 <- LimitofDetect_pipeSummary %>%
            hjust = 1.1, vjust = -0.5, color = "black") + 
   labs(title = "ProbeTest5 THP1 cells spiked with H37Ra", 
        subtitle = "Mean with standard deviation", 
-       x = "# spiked in H37Ra cells", 
+       x = "# H37Ra cells", 
        y = "# genes with at least 10 reads aligning") + 
   my_plot_themes
 ProbeTest5_LimitofDetect_10Reads_Fig2
@@ -305,7 +309,11 @@ ggsave(ProbeTest5_LimitofDetect_10Reads_Fig2,
        file = "ProbeTest5_LimitofDetect_AtLeast10Reads_v2.pdf",
        path = "LimitofDetection_Figures",
        width = 7, height = 5, units = "in")
+# ggsave(ProbeTest5_LimitofDetect_10Reads_Fig2,
+#        file = "ProbeTest5_LimitofDetect_AtLeast10Reads_v2.png",
+#        path = "LimitofDetection_Figures",
+#        width = 7, height = 5, units = "in")
 ggsave(ProbeTest5_LimitofDetect_10Reads_Fig2,
-       file = "ProbeTest5_LimitofDetect_AtLeast10Reads_v2.png",
+       file = "ProbeTest5_LimitofDetect_AtLeast10Reads_v3.png",
        path = "LimitofDetection_Figures",
-       width = 7, height = 5, units = "in")
+       width = 5, height = 5, units = "in")
