@@ -261,6 +261,35 @@ THP1Spike_tpm_CorrectScales <- inner_join(
   by = "Gene"
 )
 
+###########################################################
+############# IMPORT AND PROCESS ALL READS_M ##############
+# 5/1/25
+
+# ProbeTest5_tpm <- read.csv("ProbeTest5_Mtb.Expression.Gene.Data.SCALED.TPM.csv")
+ProbeTest5_RawReads <- read.csv("ProbeTest5_Mtb.Expression.Gene.Data.ReadsM_moreTrim.csv") # This has the 3' end trimmed 40bp to increase the number of reads aligning
+ProbeTest4_RawReads <- read.csv("ProbeTest4_Mtb.Expression.Gene.Data.ReadsM.csv")
+# Not doing ProbeTest3 because I didn't pull the not scaled from the lenovo and it doesn't contain the sputum samples >1M reads
+
+# Need to remove the undetermined which all share names
+ProbeTest5_RawReads$Undetermined_S0 <- NULL
+ProbeTest4_RawReads$Undetermined_S0 <- NULL
+
+# Merge the 3 documents
+All_RawReads <- full_join(ProbeTest5_RawReads, ProbeTest4_RawReads, by = "X")
+All_RawReads <- All_RawReads %>% rename("Gene" = "X")
+
+# Adjust the names so they are slightly shorter
+names(All_RawReads) <- gsub(x = names(All_RawReads), pattern = "_S.*", replacement = "") # This regular expression removes the _S and everything after it (I think...)
+
+# add rownames to the tpm and metadata dataframes
+rownames(All_RawReads) <- All_RawReads[,1] # add the rownames
+
+
+# Get just the sputum we are interested in and the not-captured broth
+SputumBroth_RawReads <- All_RawReads %>% select(all_of(c(Unique_Sputum_1Mreads, "H37Ra_Broth_4", "H37Ra_Broth_5", "H37Ra_Broth_6", "Gene")))
+
+
+
 
 ###########################################################
 ############ RPKM and R_M: IMPORT PROBETEST5 ##############
