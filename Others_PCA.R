@@ -16,18 +16,19 @@
 my_plot_themes <- theme_bw() +
   theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) +
   theme(legend.position = "right",legend.text=element_text(size=14),
-        legend.title = element_text(size = 14),
+        # legend.title = element_text(size = 14),
+        legend.title = element_blank(),
         plot.title = element_text(size=10), 
         axis.title.x = element_text(size=14), 
         axis.text.x = element_text(angle = 0, size=14, vjust=0, hjust=0.5),
         axis.title.y = element_text(size=14),
         axis.text.y = element_text(size=14), 
         plot.subtitle = element_text(size=9), 
-        plot.margin = margin(10, 10, 10, 20),
-        panel.background = element_rect(fill='transparent'),
-        plot.background = element_rect(fill='transparent', color=NA),
-        legend.background = element_rect(fill='transparent'),
-        legend.box.background = element_blank()
+        plot.margin = margin(10, 10, 10, 20)# ,
+        # panel.background = element_rect(fill='transparent'),
+        # plot.background = element_rect(fill='transparent', color=NA),
+        # legend.background = element_rect(fill='transparent'),
+        # legend.box.background = element_blank()
   )
 
 poster_plot_themes <- theme_bw() +
@@ -312,6 +313,11 @@ fig_PC1vsPC2
 #        file = "PCA_UniqueSputum1Mreads_With_Broth_v2.pdf",
 #        path = "PCA_Figures",
 #        width = 8, height = 5, units = "in")
+ggsave(fig_PC1vsPC2,
+       file = "PCA_UniqueSputum1Mreads_With_Broth_v2.png",
+       path = "PCA_Figures",
+       dpi = 300,
+       width = 8, height = 5, units = "in")
 
 
 # 3D plot

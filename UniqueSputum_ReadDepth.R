@@ -15,11 +15,11 @@ my_plot_themes <- theme_bw() +
         axis.title.y = element_text(size=14),
         axis.text.y = element_text(size=14), 
         plot.subtitle = element_text(size=9), 
-        plot.margin = margin(10, 10, 10, 20),
-        panel.background = element_rect(fill='transparent'),
-        plot.background = element_rect(fill='transparent', color=NA),
-        legend.background = element_rect(fill='transparent'),
-        legend.box.background = element_blank()
+        plot.margin = margin(10, 10, 10, 20)# ,
+        # panel.background = element_rect(fill='transparent'),
+        # plot.background = element_rect(fill='transparent', color=NA),
+        # legend.background = element_rect(fill='transparent'),
+        # legend.box.background = element_blank()
   )
 
 poster_plot_themes <- theme_bw() +
@@ -57,13 +57,17 @@ WeekvsReads_UniqueSputum <- UniqueSputum_pipeSummary %>%
   labs(title = "Unique Sputum: Week vs number reads aligned to Mtb (normal depletion)",
        subtitle = NULL, 
        x = "Weeks after start of antibiotics", 
-       y = "# reads aligning to Mtb genome") + 
+       y = "# reads aligning to \nMtb transcriptome") + 
   my_plot_themes
 WeekvsReads_UniqueSputum
 
 # ggplotly(WeekvsReads_sputum2)
 ggsave(WeekvsReads_UniqueSputum,
        file = "WeekvsReads_UniqueSputum.pdf",
+       path = "UniqueSputum_Figures",
+       width = 6, height = 4, units = "in")
+ggsave(WeekvsReads_UniqueSputum,
+       file = "WeekvsReads_UniqueSputum.png",
        path = "UniqueSputum_Figures",
        width = 6, height = 4, units = "in")
 
