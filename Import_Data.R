@@ -3,6 +3,10 @@
 # See Test_Sputum_Jan2025_RNALibraryPrep
 # 2/15/25
 
+# 5/9/25: Updated TPM and RPKM files to the ones that had KEEPINTERGNICS = F
+# Also removing all the scaled stuff because not using scaled anymore
+# All the old figure folders have been renamed to include _old.KIT (KEEP INTERGENICS T)
+
 
 ################################################
 ################ LOAD PACKAGES #################
@@ -151,29 +155,29 @@ CapturedVsNot_pipeSummary$Probe <- factor(CapturedVsNot_pipeSummary$Probe, level
 ###########################################################
 ############ IMPORT AND PROCESS ALL TPM VALUES ############
 
-# ProbeTest5_tpm <- read.csv("ProbeTest5_Mtb.Expression.Gene.Data.SCALED.TPM.csv")
-ProbeTest5_tpm <- read.csv("ProbeTest5_Mtb.Expression.Gene.Data.SCALED.TPM_moreTrim.csv") # This has the 3' end trimmed 40bp to increase the number of reads aligning
-ProbeTest4_tpm <- read.csv("ProbeTest4_Mtb.Expression.Gene.Data.SCALED.TPM.csv")
-ProbeTest3_tpm <- read.csv("ProbeTest3_Mtb.Expression.Gene.Data.SCALED.TPM.csv")
-
-# Need to remove the undetermined which all share names
-ProbeTest5_tpm$Undetermined_S0 <- NULL
-ProbeTest4_tpm$Undetermined_S0 <- NULL
-ProbeTest3_tpm$Undetermined_S0 <- NULL
-
-# Merge the 3 documents
-All_tpm <- merge(ProbeTest5_tpm, ProbeTest4_tpm, all = T)
-All_tpm <- merge(All_tpm, ProbeTest3_tpm, all = T)
-
-# Adjust the names so they are slightly shorter
-names(All_tpm) <- gsub(x = names(All_tpm), pattern = "_S.*", replacement = "") # This regular expression removes the _S and everything after it (I think...)
-
-# Grab the metadata I added to my_pipeSummary
-my_metadata <- All_pipeSummary %>% select(1, 13:ncol(All_pipeSummary))
-
-# add rownames to the tpm and metadata dataframes
-rownames(All_tpm) <- All_tpm[,1] # add the rownames
-All_tpm <- All_tpm[,-1] # Remove the old column of rownames
+# # ProbeTest5_tpm <- read.csv("ProbeTest5_Mtb.Expression.Gene.Data.SCALED.TPM.csv")
+# ProbeTest5_tpm <- read.csv("ProbeTest5_Mtb.Expression.Gene.Data.SCALED.TPM_moreTrim.csv") # This has the 3' end trimmed 40bp to increase the number of reads aligning
+# ProbeTest4_tpm <- read.csv("ProbeTest4_Mtb.Expression.Gene.Data.SCALED.TPM.csv")
+# ProbeTest3_tpm <- read.csv("ProbeTest3_Mtb.Expression.Gene.Data.SCALED.TPM.csv")
+# 
+# # Need to remove the undetermined which all share names
+# ProbeTest5_tpm$Undetermined_S0 <- NULL
+# ProbeTest4_tpm$Undetermined_S0 <- NULL
+# ProbeTest3_tpm$Undetermined_S0 <- NULL
+# 
+# # Merge the 3 documents
+# All_tpm <- merge(ProbeTest5_tpm, ProbeTest4_tpm, all = T)
+# All_tpm <- merge(All_tpm, ProbeTest3_tpm, all = T)
+# 
+# # Adjust the names so they are slightly shorter
+# names(All_tpm) <- gsub(x = names(All_tpm), pattern = "_S.*", replacement = "") # This regular expression removes the _S and everything after it (I think...)
+# 
+# # Grab the metadata I added to my_pipeSummary
+# my_metadata <- All_pipeSummary %>% select(1, 13:ncol(All_pipeSummary))
+# 
+# # add rownames to the tpm and metadata dataframes
+# rownames(All_tpm) <- All_tpm[,1] # add the rownames
+# All_tpm <- All_tpm[,-1] # Remove the old column of rownames
 # rownames(my_metadata) <- my_metadata[,1] # add the rownames
 # my_metadata <- my_metadata[,-1] # Remove the old column of rownames
 
@@ -186,12 +190,13 @@ All_tpm <- All_tpm[,-1] # Remove the old column of rownames
 ###########################################################
 ########## TPM: EXTRACT JUST THE SPUTUM SAMPLES ###########
 
-# Combine the sputum samples only 
-UniqueSputum_tpm <- All_tpm %>% select(all_of(Unique_Sputum))
-# write.csv(AllSputum_tpm, "AllSputum_tpm.csv")
-
-# Grab AllSputum metadata
+# # Combine the sputum samples only 
+# UniqueSputum_tpm <- All_tpm %>% select(all_of(Unique_Sputum))
+# # write.csv(AllSputum_tpm, "AllSputum_tpm.csv")
+# 
+# # Grab AllSputum metadata
 UniqueSputum_metadata <- UniqueSputum_pipeSummary # %>% select(2, 14:30)
+
 # Adjust the metadata names so they are the same
 rownames(UniqueSputum_metadata) <- UniqueSputum_metadata[,1] # add the rownames
 
@@ -247,19 +252,19 @@ ProbeTest5_tpm_NOTscaled <- ProbeTest5_tpm_NOTscaled %>% rename(Gene = X)
 # Captured = "THP1_1e6_1a", "THP1_1e6_2b", "THP1_1e6_3a" 
 # Not Captured = "THP1_1e6_1b", "THP1_1e6_2a", "THP1_1e6_3b" 
 
-# Adjust the names so they are slightly shorter
-names(ProbeTest5_tpm) <- gsub(x = names(ProbeTest5_tpm), pattern = "_S.*", replacement = "") # This regular expression removes the _S and everything after it
-# add rownames to the tpm and metadata dataframes
-rownames(ProbeTest5_tpm) <- ProbeTest5_tpm[,1] # add the rownames
-ProbeTest5_tpm <- ProbeTest5_tpm[,-1] # Remove the old column of rownames
-# Need to make sure there is a Gene column (gets lost)
-ProbeTest5_tpm$Gene <- rownames(ProbeTest5_tpm)
-
-THP1Spike_tpm_CorrectScales <- inner_join(
-  ProbeTest5_tpm %>% select(THP1_1e6_1a, THP1_1e6_2b, THP1_1e6_3a, Gene),
-  ProbeTest5_tpm_NOTscaled %>% select(THP1_1e6_1b, THP1_1e6_2a, THP1_1e6_3b, Gene),
-  by = "Gene"
-)
+# # Adjust the names so they are slightly shorter
+# names(ProbeTest5_tpm) <- gsub(x = names(ProbeTest5_tpm), pattern = "_S.*", replacement = "") # This regular expression removes the _S and everything after it
+# # add rownames to the tpm and metadata dataframes
+# rownames(ProbeTest5_tpm) <- ProbeTest5_tpm[,1] # add the rownames
+# ProbeTest5_tpm <- ProbeTest5_tpm[,-1] # Remove the old column of rownames
+# # Need to make sure there is a Gene column (gets lost)
+# ProbeTest5_tpm$Gene <- rownames(ProbeTest5_tpm)
+# 
+# THP1Spike_tpm_CorrectScales <- inner_join(
+#   ProbeTest5_tpm %>% select(THP1_1e6_1a, THP1_1e6_2b, THP1_1e6_3a, Gene),
+#   ProbeTest5_tpm_NOTscaled %>% select(THP1_1e6_1b, THP1_1e6_2a, THP1_1e6_3b, Gene),
+#   by = "Gene"
+# )
 
 ###########################################################
 ############# IMPORT AND PROCESS ALL READS_M ##############
@@ -295,49 +300,49 @@ SputumBroth_RawReads <- All_RawReads %>% select(all_of(c(Unique_Sputum_1Mreads, 
 ############ RPKM and R_M: IMPORT PROBETEST5 ##############
 # Want to see if the broth correlations look different for RPKM or Reads_M values, using scaled for all.
 
-ProbeTest5_RPKM <- read.csv("ProbeTest5_Mtb.Expression.Gene.Data.SCALED.RPKM_moreTrim.csv")
-ProbeTest5_RPKM$Undetermined_S0 <- NULL
-# Adjust the names so they are slightly shorter
-names(ProbeTest5_RPKM) <- gsub(x = names(ProbeTest5_RPKM), pattern = "_S.*", replacement = "") # This regular expression removes the _S and everything after it (I think...)
-rownames(ProbeTest5_RPKM) <- ProbeTest5_RPKM[,1] # add the rownames
-ProbeTest5_RPKM <- ProbeTest5_RPKM %>% rename(Gene = X)
+# ProbeTest5_RPKM <- read.csv("ProbeTest5_Mtb.Expression.Gene.Data.SCALED.RPKM_moreTrim.csv")
+# ProbeTest5_RPKM$Undetermined_S0 <- NULL
+# # Adjust the names so they are slightly shorter
+# names(ProbeTest5_RPKM) <- gsub(x = names(ProbeTest5_RPKM), pattern = "_S.*", replacement = "") # This regular expression removes the _S and everything after it (I think...)
+# rownames(ProbeTest5_RPKM) <- ProbeTest5_RPKM[,1] # add the rownames
+# ProbeTest5_RPKM <- ProbeTest5_RPKM %>% rename(Gene = X)
+# 
+# Broth_RPKM <- ProbeTest5_RPKM %>% select(contains("Broth"))
 
-Broth_RPKM <- ProbeTest5_RPKM %>% select(contains("Broth"))
-
-ProbeTest5_ReadsM <- read.csv("ProbeTest5_Mtb.Expression.Gene.Data.SCALED.ReadsM_moreTrim.csv")
-ProbeTest5_ReadsM$Undetermined_S0 <- NULL
-# Adjust the names so they are slightly shorter
-names(ProbeTest5_ReadsM) <- gsub(x = names(ProbeTest5_ReadsM), pattern = "_S.*", replacement = "") # This regular expression removes the _S and everything after it (I think...)
-rownames(ProbeTest5_ReadsM) <- ProbeTest5_ReadsM[,1] # add the rownames
-ProbeTest5_ReadsM <- ProbeTest5_ReadsM %>% rename(Gene = X)
-
-Broth_ReadsM <- ProbeTest5_ReadsM %>% select(contains("Broth"))
+# ProbeTest5_ReadsM <- read.csv("ProbeTest5_Mtb.Expression.Gene.Data.SCALED.ReadsM_moreTrim.csv")
+# ProbeTest5_ReadsM$Undetermined_S0 <- NULL
+# # Adjust the names so they are slightly shorter
+# names(ProbeTest5_ReadsM) <- gsub(x = names(ProbeTest5_ReadsM), pattern = "_S.*", replacement = "") # This regular expression removes the _S and everything after it (I think...)
+# rownames(ProbeTest5_ReadsM) <- ProbeTest5_ReadsM[,1] # add the rownames
+# ProbeTest5_ReadsM <- ProbeTest5_ReadsM %>% rename(Gene = X)
+# 
+# Broth_ReadsM <- ProbeTest5_ReadsM %>% select(contains("Broth"))
 
 ###########################################################
 ########### TPM: EXTRACT JUST THE BROTH SAMPLES ###########
 
-# Keep the broth samples only
-Broth_tpm <- All_tpm %>% select(contains("Broth"))
-
-# Grab AllSputum metadata
-Broth_metadata <- All_pipeSummary %>% 
-  filter(grepl("Broth", SampleID)) %>%
-  select(where(~!all(is.na(.)))) %>% # Removing all the columns that are all NA
-  mutate(Probe = str_replace_all(Probe, c("JA2"="Captured", "None"="Not captured"))) # Changing what's in the Probe column
-rownames(Broth_metadata) <- Broth_metadata[,1] # add the rownames
-
-# Do the same for the NOTscaled tpm
-Broth_tpm_NOTscaled <- ProbeTest5_tpm_NOTscaled %>% select(contains("Broth"))
-Broth_tpm_NOTscaled$Gene <- rownames(Broth_tpm_NOTscaled)
-
-Broth_tpm$Gene <- rownames(Broth_tpm)
-
-# Realized that I am using the not captured as scaled, but it doesn't need to be scaled! Make everything with the scaled captured and the not scaled not captured
-Broth_tpm_CorrectScales <- inner_join(
-  Broth_tpm %>% select(H37Ra_Broth_1, H37Ra_Broth_2, H37Ra_Broth_3, Gene),
-  Broth_tpm_NOTscaled %>% select(H37Ra_Broth_4, H37Ra_Broth_5, H37Ra_Broth_6, Gene),
-  by = "Gene"
-)
+# # Keep the broth samples only
+# Broth_tpm <- All_tpm %>% select(contains("Broth"))
+# 
+# # Grab AllSputum metadata
+# Broth_metadata <- All_pipeSummary %>% 
+#   filter(grepl("Broth", SampleID)) %>%
+#   select(where(~!all(is.na(.)))) %>% # Removing all the columns that are all NA
+#   mutate(Probe = str_replace_all(Probe, c("JA2"="Captured", "None"="Not captured"))) # Changing what's in the Probe column
+# rownames(Broth_metadata) <- Broth_metadata[,1] # add the rownames
+# 
+# # Do the same for the NOTscaled tpm
+# Broth_tpm_NOTscaled <- ProbeTest5_tpm_NOTscaled %>% select(contains("Broth"))
+# Broth_tpm_NOTscaled$Gene <- rownames(Broth_tpm_NOTscaled)
+# 
+# Broth_tpm$Gene <- rownames(Broth_tpm)
+# 
+# # Realized that I am using the not captured as scaled, but it doesn't need to be scaled! Make everything with the scaled captured and the not scaled not captured
+# Broth_tpm_CorrectScales <- inner_join(
+#   Broth_tpm %>% select(H37Ra_Broth_1, H37Ra_Broth_2, H37Ra_Broth_3, Gene),
+#   Broth_tpm_NOTscaled %>% select(H37Ra_Broth_4, H37Ra_Broth_5, H37Ra_Broth_6, Gene),
+#   by = "Gene"
+# )
 
 ###########################################################
 ############# SPUTUM ALIGN TO MULTIPLE GENOMES ############

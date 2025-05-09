@@ -52,3 +52,14 @@ ProbeTest3_Mtb.Expression.Gene.Data.TPM.csv
 ProbeTest4_Mtb.Expression.Gene.Data.TPM.csv
 Poster_Figures
 Probetest4_Mtb.Expression.Gene.Data.ReadsM.csv
+CaptureVsNot_Figures_old.KIT
+Correlation_Figures_old.KIT
+Diff_alignments_Figures_old.KIT
+LimitofDetection_Figures_old.KIT
+MDS_Figures_old.KIT
+PCA_Figures_old.KIT
+Pie_Figures_old.KIT
+Poster_Figures_old.KIT
+ProbeTest3_Mtb.Expression.Gene.Data.RPKM.csv
+ProbeTest4_Mtb.Expression.Gene.Data.RPKM.csv
+phoP_Figures_old.KIT
