@@ -50,23 +50,23 @@ options(scipen = 0) # To revert back to default
 ###########################################################
 ############# ALL CELL NUMBER VS N_GENOMIC ################
 
-LimitofDetect_NumReads_Fig1 <- LimitofDetect_pipeSummary %>% 
-  ggplot(aes(x = Ra_cells2, y = N_Genomic)) + 
-  geom_point(size = 6, alpha = 0.8, stroke = 0.8, fill = "#03A9F4", shape = 21) + 
-  # geom_text_repel(aes(label = format(N_Genomic, big.mark = ",")), size= 3, box.padding = 0.4, segment.color = NA) + 
-  geom_hline(yintercept = 1000000, linetype = "dashed", alpha = 0.5) + 
-  labs(title = "All THP1 cells spiked with H37Ra",
-       subtitle = NULL, 
-       x = "# spiked in H37Ra cells", 
-       y = "# reads aligning to Mtb genome") + 
-  # scale_y_continuous(limits = c(0,7000000), breaks = seq(0, 7000000, 1000000)) + 
-  # scale_x_continuous(trans = "log10") + 
-  my_plot_themes
-LimitofDetect_NumReads_Fig1
-ggsave(LimitofDetect_NumReads_Fig1,
-       file = "All_LimitofDetect_NumReads_v1.pdf",
-       path = "LimitofDetection_Figures",
-       width = 6, height = 4, units = "in")
+# LimitofDetect_NumReads_Fig1 <- LimitofDetect_pipeSummary %>% 
+#   ggplot(aes(x = Ra_cells2, y = N_Genomic)) + 
+#   geom_point(size = 6, alpha = 0.8, stroke = 0.8, fill = "#03A9F4", shape = 21) + 
+#   # geom_text_repel(aes(label = format(N_Genomic, big.mark = ",")), size= 3, box.padding = 0.4, segment.color = NA) + 
+#   geom_hline(yintercept = 1000000, linetype = "dashed", alpha = 0.5) + 
+#   labs(title = "All THP1 cells spiked with H37Ra",
+#        subtitle = NULL, 
+#        x = "# spiked in H37Ra cells", 
+#        y = "# reads aligning to Mtb genome") + 
+#   # scale_y_continuous(limits = c(0,7000000), breaks = seq(0, 7000000, 1000000)) + 
+#   # scale_x_continuous(trans = "log10") + 
+#   my_plot_themes
+# LimitofDetect_NumReads_Fig1
+# ggsave(LimitofDetect_NumReads_Fig1,
+#        file = "All_LimitofDetect_NumReads_v1.pdf",
+#        path = "LimitofDetection_Figures",
+#        width = 6, height = 4, units = "in")
 
 # Make it a boxplot
 LimitofDetect_NumReads_Fig2 <- LimitofDetect_pipeSummary %>% 
@@ -79,7 +79,7 @@ LimitofDetect_NumReads_Fig2 <- LimitofDetect_pipeSummary %>%
        subtitle = NULL, 
        x = "# spiked in H37Ra cells", 
        y = "# reads aligning to Mtb genome") + 
-  scale_y_continuous(limits = c(0,17000000), breaks = seq(0, 17000000, 2000000)) + 
+  scale_y_continuous(limits = c(0,19000000), breaks = seq(0, 19000000, 2000000)) + 
   # scale_x_continuous(trans = "log10") + 
   my_plot_themes
 LimitofDetect_NumReads_Fig2
@@ -91,23 +91,23 @@ ggsave(LimitofDetect_NumReads_Fig2,
 ###########################################################
 ############# ALL CELL NUMBER VS P_GENOMIC ################
 
-LimitofDetect_PercentReads_Fig1 <- LimitofDetect_pipeSummary %>% 
-  ggplot(aes(x = Ra_cells2, y = P_Genomic)) + 
-  geom_point(size = 6, alpha = 0.8, stroke = 0.8, fill = "#03A9F4", shape = 21) + 
-  # geom_text_repel(aes(label = format(N_Genomic, big.mark = ",")), size= 3, box.padding = 0.4, segment.color = NA) + 
-  # geom_hline(yintercept = 1000000, linetype = "dashed", alpha = 0.5) + 
-  labs(title = "All THP1 cells spiked with H37Ra",
-       subtitle = NULL, 
-       x = "# spiked in H37Ra cells", 
-       y = "% reads aligning to Mtb genome") + 
-  scale_y_continuous(limits = c(0,100), breaks = seq(0, 100, 10)) + 
-  # scale_x_continuous(trans = "log10") + 
-  my_plot_themes
-LimitofDetect_PercentReads_Fig1
-ggsave(LimitofDetect_PercentReads_Fig1,
-       file = "All_LimitofDetect_PercentReads_v1.pdf",
-       path = "LimitofDetection_Figures",
-       width = 6, height = 4, units = "in")
+# LimitofDetect_PercentReads_Fig1 <- LimitofDetect_pipeSummary %>% 
+#   ggplot(aes(x = Ra_cells2, y = P_Genomic)) + 
+#   geom_point(size = 6, alpha = 0.8, stroke = 0.8, fill = "#03A9F4", shape = 21) + 
+#   # geom_text_repel(aes(label = format(N_Genomic, big.mark = ",")), size= 3, box.padding = 0.4, segment.color = NA) + 
+#   # geom_hline(yintercept = 1000000, linetype = "dashed", alpha = 0.5) + 
+#   labs(title = "All THP1 cells spiked with H37Ra",
+#        subtitle = NULL, 
+#        x = "# spiked in H37Ra cells", 
+#        y = "% reads aligning to Mtb genome") + 
+#   scale_y_continuous(limits = c(0,100), breaks = seq(0, 100, 10)) + 
+#   # scale_x_continuous(trans = "log10") + 
+#   my_plot_themes
+# LimitofDetect_PercentReads_Fig1
+# ggsave(LimitofDetect_PercentReads_Fig1,
+#        file = "All_LimitofDetect_PercentReads_v1.pdf",
+#        path = "LimitofDetection_Figures",
+#        width = 6, height = 4, units = "in")
 
 # Make it a boxplot
 LimitofDetect_PercentReads_Fig2 <- LimitofDetect_pipeSummary %>% 
@@ -132,20 +132,20 @@ ggsave(LimitofDetect_PercentReads_Fig2,
 ###########################################################
 ########## ProbeTest5 CELL NUMBER VS N_GENOMIC ############
 
-ProbeTest5_LimitofDetect_NumReads_Fig1 <- LimitofDetect_pipeSummary %>% 
-  filter(Run == "ProbeTest5") %>% 
-  ggplot(aes(x = Ra_cells2, y = N_Genomic)) + 
-  geom_point(size = 4, alpha = 0.8, stroke = 0.8, fill = "#03A9F4", shape = 21) + 
-  # geom_text_repel(aes(label = format(N_Genomic, big.mark = ",")), size= 3, box.padding = 0.4, segment.color = NA) + 
-  geom_hline(yintercept = 1000000, linetype = "dashed", alpha = 0.5) + 
-  labs(title = "ProbeTest5 THP1 cells spiked with H37Ra",
-       subtitle = NULL, 
-       x = "# spiked in H37Ra cells", 
-       y = "# reads aligning to Mtb genome") + 
-  scale_y_continuous(limits = c(0,19000000), breaks = seq(0, 19000000, 2000000)) + 
-  # scale_x_continuous(trans = "log10") + 
-  my_plot_themes
-ProbeTest5_LimitofDetect_NumReads_Fig1
+# ProbeTest5_LimitofDetect_NumReads_Fig1 <- LimitofDetect_pipeSummary %>% 
+#   filter(Run == "ProbeTest5") %>% 
+#   ggplot(aes(x = Ra_cells2, y = N_Genomic)) + 
+#   geom_point(size = 4, alpha = 0.8, stroke = 0.8, fill = "#03A9F4", shape = 21) + 
+#   # geom_text_repel(aes(label = format(N_Genomic, big.mark = ",")), size= 3, box.padding = 0.4, segment.color = NA) + 
+#   geom_hline(yintercept = 1000000, linetype = "dashed", alpha = 0.5) + 
+#   labs(title = "ProbeTest5 THP1 cells spiked with H37Ra",
+#        subtitle = NULL, 
+#        x = "# spiked in H37Ra cells", 
+#        y = "# reads aligning to Mtb genome") + 
+#   scale_y_continuous(limits = c(0,19000000), breaks = seq(0, 19000000, 2000000)) + 
+#   # scale_x_continuous(trans = "log10") + 
+#   my_plot_themes
+# ProbeTest5_LimitofDetect_NumReads_Fig1
 # ggsave(ProbeTest5_LimitofDetect_NumReads_Fig1,
 #        file = "ProbeTest5_LimitofDetect_NumReads_v1.pdf",
 #        path = "LimitofDetection_Figures",
@@ -176,32 +176,32 @@ ProbeTest5_LimitofDetect_NumReads_Fig2
 #        file = "ProbeTest5_LimitofDetect_NumReads_v7.pdf",
 #        path = "Poster_Figures",
 #        width = 7.5, height = 4.5, units = "in")
-ggsave(ProbeTest5_LimitofDetect_NumReads_Fig2,
-       file = "ProbeTest5_LimitofDetect_NumReads_v2.png",
-       path = "LimitofDetection_Figures",
-       width = 7, height = 5, units = "in")
-ggsave(ProbeTest5_LimitofDetect_NumReads_Fig2,
-       file = "ProbeTest5_LimitofDetect_NumReads_v3.png",
-       path = "LimitofDetection_Figures",
-       width = 5, height = 5, units = "in")
+# ggsave(ProbeTest5_LimitofDetect_NumReads_Fig2,
+#        file = "ProbeTest5_LimitofDetect_NumReads_v2.png",
+#        path = "LimitofDetection_Figures",
+#        width = 7, height = 5, units = "in")
+# ggsave(ProbeTest5_LimitofDetect_NumReads_Fig2,
+#        file = "ProbeTest5_LimitofDetect_NumReads_v3.png",
+#        path = "LimitofDetection_Figures",
+#        width = 5, height = 5, units = "in")
 
 
 ###########################################################
 ########## ProbeTest5 CELL NUMBER VS P_GENOMIC ############
 
-ProbeTest5_LimitofDetect_PercentReads_Fig1 <- LimitofDetect_pipeSummary %>% 
-  filter(Run == "ProbeTest5") %>% 
-  ggplot(aes(x = Ra_cells2, y = P_Genomic)) + 
-  geom_point(size = 4, alpha = 0.8, stroke = 0.8, fill = "#03A9F4", shape = 21) + 
-  # geom_text_repel(aes(label = format(N_Genomic, big.mark = ",")), size= 3, box.padding = 0.4, segment.color = NA) + 
-  labs(title = "ProbeTest5 THP1 cells spiked with H37Ra",
-       subtitle = NULL, 
-       x = "# spiked in H37Ra cells", 
-       y = "% reads aligning to Mtb genome") + 
-  scale_y_continuous(limits = c(0,100), breaks = seq(0, 100, 10)) + 
-  # scale_x_continuous(trans = "log10") + 
-  my_plot_themes
-ProbeTest5_LimitofDetect_PercentReads_Fig1
+# ProbeTest5_LimitofDetect_PercentReads_Fig1 <- LimitofDetect_pipeSummary %>% 
+#   filter(Run == "ProbeTest5") %>% 
+#   ggplot(aes(x = Ra_cells2, y = P_Genomic)) + 
+#   geom_point(size = 4, alpha = 0.8, stroke = 0.8, fill = "#03A9F4", shape = 21) + 
+#   # geom_text_repel(aes(label = format(N_Genomic, big.mark = ",")), size= 3, box.padding = 0.4, segment.color = NA) + 
+#   labs(title = "ProbeTest5 THP1 cells spiked with H37Ra",
+#        subtitle = NULL, 
+#        x = "# spiked in H37Ra cells", 
+#        y = "% reads aligning to Mtb genome") + 
+#   scale_y_continuous(limits = c(0,100), breaks = seq(0, 100, 10)) + 
+#   # scale_x_continuous(trans = "log10") + 
+#   my_plot_themes
+# ProbeTest5_LimitofDetect_PercentReads_Fig1
 # ggsave(ProbeTest5_LimitofDetect_PercentReads_Fig1,
 #        file = "ProbeTest5_LimitofDetect_PercentReads_v1.pdf",
 #        path = "LimitofDetection_Figures",
@@ -220,10 +220,10 @@ ProbeTest5_LimitofDetect_PercentReads_Fig2 <- LimitofDetect_pipeSummary %>%
        y = "% reads aligning to Mtb transcriptome") + 
   my_plot_themes
 ProbeTest5_LimitofDetect_PercentReads_Fig2
-ggsave(ProbeTest5_LimitofDetect_PercentReads_Fig2,
-       file = "ProbeTest5_LimitofDetect_PercentReads_v2.pdf",
-       path = "LimitofDetection_Figures",
-       width = 7, height = 5, units = "in")
+# ggsave(ProbeTest5_LimitofDetect_PercentReads_Fig2,
+#        file = "ProbeTest5_LimitofDetect_PercentReads_v2.pdf",
+#        path = "LimitofDetection_Figures",
+#        width = 7, height = 5, units = "in")
 # ggsave(ProbeTest5_LimitofDetect_PercentReads_Fig2,
 #        file = "ProbeTest5_LimitofDetect_PercentReads_v2.png",
 #        path = "LimitofDetection_Figures",
@@ -254,32 +254,32 @@ LimitofDetect_10Reads_Fig1 <- LimitofDetect_pipeSummary %>%
   # scale_x_continuous(trans = "log10") + 
   my_plot_themes
 LimitofDetect_10Reads_Fig1
-ggsave(LimitofDetect_10Reads_Fig1,
-       file = "All_LimitofDetect_AtLeast10Reads_v1.pdf",
-       path = "LimitofDetection_Figures",
-       width = 8, height = 4, units = "in")
+# ggsave(LimitofDetect_10Reads_Fig1,
+#        file = "All_LimitofDetect_AtLeast10Reads_v1.pdf",
+#        path = "LimitofDetection_Figures",
+#        width = 8, height = 4, units = "in")
 
 ###########################################################
 ####### ProbeTest5 CELL NUMBER VS AtLeast.10.Reads ########
 
-ProbeTest5_LimitofDetect_10Reads_Fig1 <- LimitofDetect_pipeSummary %>% 
-  filter(Run == "ProbeTest5") %>%
-  ggplot(aes(x = Ra_cells2, y = AtLeast.10.Reads)) + 
-  geom_point(size = 4, alpha = 0.8, stroke = 0.8, fill = "#03A9F4", shape = 21) + 
-  geom_hline(yintercept = 4499*0.8, linetype = "dashed", alpha = 0.5) + 
-  annotate("text", x = 0.9, y = 4499*0.8, label = "80%", 
-           hjust = 1.1, vjust = -0.5, color = "black") + 
-  geom_hline(yintercept = 4499*0.5, linetype = "dashed", alpha = 0.5) + 
-  annotate("text", x = 0.9, y = 4499*0.5, label = "50%", 
-           hjust = 1.1, vjust = -0.5, color = "black") + 
-  labs(title = "ProbeTest5 THP1 cells spiked with H37Ra",
-       subtitle = NULL, 
-       x = "# spiked in H37Ra cells", 
-       y = "# genes with at least 10 reads aligning") + 
-  scale_y_continuous(limits = c(0,4500), breaks = seq(0, 4500, 500)) + 
-  # scale_x_continuous(trans = "log10") + 
-  my_plot_themes
-ProbeTest5_LimitofDetect_10Reads_Fig1
+# ProbeTest5_LimitofDetect_10Reads_Fig1 <- LimitofDetect_pipeSummary %>% 
+#   filter(Run == "ProbeTest5") %>%
+#   ggplot(aes(x = Ra_cells2, y = AtLeast.10.Reads)) + 
+#   geom_point(size = 4, alpha = 0.8, stroke = 0.8, fill = "#03A9F4", shape = 21) + 
+#   geom_hline(yintercept = 4499*0.8, linetype = "dashed", alpha = 0.5) + 
+#   annotate("text", x = 0.9, y = 4499*0.8, label = "80%", 
+#            hjust = 1.1, vjust = -0.5, color = "black") + 
+#   geom_hline(yintercept = 4499*0.5, linetype = "dashed", alpha = 0.5) + 
+#   annotate("text", x = 0.9, y = 4499*0.5, label = "50%", 
+#            hjust = 1.1, vjust = -0.5, color = "black") + 
+#   labs(title = "ProbeTest5 THP1 cells spiked with H37Ra",
+#        subtitle = NULL, 
+#        x = "# spiked in H37Ra cells", 
+#        y = "# genes with at least 10 reads aligning") + 
+#   scale_y_continuous(limits = c(0,4500), breaks = seq(0, 4500, 500)) + 
+#   # scale_x_continuous(trans = "log10") + 
+#   my_plot_themes
+# ProbeTest5_LimitofDetect_10Reads_Fig1
 # ggsave(ProbeTest5_LimitofDetect_10Reads_Fig1,
 #        file = "ProbeTest5_LimitofDetect_AtLeast10Reads_v1.pdf",
 #        path = "LimitofDetection_Figures",

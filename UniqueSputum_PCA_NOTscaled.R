@@ -38,7 +38,8 @@ my_plot_themes <- theme_bw() +
 # Include all unique sputum samples, even those with low read counts
 
 # Think I need to transform the data first
-UniqueSputum_tpm_t <- as.data.frame(t(UniqueSputum_tpm_NOTscaled %>% select(-Gene)))
+# UniqueSputum_tpm_t <- as.data.frame(t(UniqueSputum_tpm_NOTscaled %>% select(-Gene)))
+UniqueSputum_tpm_t <- as.data.frame(t(UniqueSputum_tpm_NOTscaled))
 
 # Remove columns that are all zero so the scale works for prcomp
 UniqueSputum_tpm_t2 <- UniqueSputum_tpm_t %>% select_if(colSums(.) != 0)
@@ -49,7 +50,7 @@ my_PCA <- prcomp(UniqueSputum_tpm_t2, scale = TRUE)
 # See the % Variance explained
 summary(my_PCA)
 summary_PCA <- format(round(as.data.frame(summary(my_PCA)[["importance"]]['Proportion of Variance',]) * 100, digits = 1), nsmall = 1) # format and round used to control the digits after the decimal place
-summary_PCA[1,1] # PC1 explains 33.3% of variance
+summary_PCA[1,1] # PC1 explains 33.9% of variance
 summary_PCA[2,1] # PC2 explains 22.5% of variance
 summary_PCA[3,1] # PC3 explains 14.5% of variance
 
@@ -113,7 +114,7 @@ my_PCA <- prcomp(UniqueSputum_1Mreads_tpm_t2, scale = TRUE)
 summary(my_PCA)
 summary_PCA <- format(round(as.data.frame(summary(my_PCA)[["importance"]]['Proportion of Variance',]) * 100, digits = 1), nsmall = 1) # format and round used to control the digits after the decimal place
 summary_PCA[1,1] # PC1 explains 36.0% of variance
-summary_PCA[2,1] # PC2 explains 29.7% of variance
+summary_PCA[2,1] # PC2 explains 29.6% of variance
 summary_PCA[3,1] # PC3 explains 22.5% of variance
 
 # MAKE PCA PLOT with GGPLOT 

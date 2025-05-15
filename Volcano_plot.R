@@ -31,9 +31,9 @@ make_volcano_function <- function(my_df, graph_title) {
   
   my_volcano <- my_df %>%
     ggplot(aes(x = LOG2FOLD, y = -log10(AVG_PVALUE), col = DE, label = DE_labels, text = GENE_NAME, label2 = GENE_ID)) + # text is for plotly, could be GENE_ID
-    geom_point() + 
+    geom_point(alpha = 0.8) + 
     labs(title = graph_title) + 
-    geom_vline(xintercept = c(-1,1), col = "grey", linetype = "dashed") + 
+    geom_vline(xintercept = c(-2,2), col = "grey", linetype = "dashed") + 
     geom_hline(yintercept = -log10(0.05), col = "grey", linetype = "dashed") + 
     
     # Need it this way so the colors aren't messed up by not having significant up or down
@@ -95,7 +95,7 @@ my_path <- "Volcano_plot_figures"
 single_plot <- make_volcano_function(list_dfs_2[[2]], df_names[2])
 single_plot
 ggsave(single_plot,
-       file = paste0(df_names[2], ".pdf"),
+       file = paste0(df_names[2], "Log2Fold.2.pdf"),
        path = my_path,
        width = 6, height = 4, units = "in")
 ggplotly(single_plot)

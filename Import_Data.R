@@ -173,7 +173,7 @@ CapturedVsNot_pipeSummary$Probe <- factor(CapturedVsNot_pipeSummary$Probe, level
 # names(All_tpm) <- gsub(x = names(All_tpm), pattern = "_S.*", replacement = "") # This regular expression removes the _S and everything after it (I think...)
 # 
 # # Grab the metadata I added to my_pipeSummary
-# my_metadata <- All_pipeSummary %>% select(1, 13:ncol(All_pipeSummary))
+my_metadata <- All_pipeSummary %>% select(1, 13:ncol(All_pipeSummary))
 # 
 # # add rownames to the tpm and metadata dataframes
 # rownames(All_tpm) <- All_tpm[,1] # add the rownames

@@ -1,6 +1,8 @@
 # PCA plot Sputum from ProbeTests 3,4,5
 # 2/16/25
 
+# OLD SCRIPT! DON'T USE
+
 
 # Look into ggbiplot for more PCA stuff??
 # https://cran.r-project.org/web/packages/ggbiplot/readme/README.html

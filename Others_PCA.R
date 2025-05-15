@@ -53,7 +53,7 @@ poster_plot_themes <- theme_bw() +
 ###########################################################
 ################## ALL ProbeTest5 PCA #####################
 
-ProbeTest5_tpm_2 <- ProbeTest5_tpm
+ProbeTest5_tpm_2 <- ProbeTest5_tpm_NOTscaled
 # Adjust the names so they are slightly shorter
 names(ProbeTest5_tpm_2) <- gsub(x = names(ProbeTest5_tpm_2), pattern = "_S.*", replacement = "") # This regular expression removes the _S and everything after it (I think...)
 
@@ -121,65 +121,67 @@ PCA_3D <- plot_ly(my_PCA_df, x = ~PC1, y = ~PC2, z = ~PC3,
 ###########################################################
 ################### SPUTUM WITH BROTH #####################
 
-# Start with All_tpm
+# 5/15/25 This one isn't working any more because the all metadata is messed up, but I don't think I need it
+
+# Start with All_tpm_NOTscaled
 # Select all the broth and all the sputum that are >1M reads
-mySubset_tpm <- All_tpm %>% select(contains("Broth") | all_of(Unique_Sputum_1Mreads))
-
-# Transform the data
-mySubset_tpm_t <- as.data.frame(t(mySubset_tpm))
-
-# Remove columns that are all zero so the scale works for prcomp
-mySubset_tpm_t2 <- mySubset_tpm_t %>% select_if(colSums(.) != 0)
-
-# Make the actual PCA
-my_PCA <- prcomp(mySubset_tpm_t2, scale = TRUE)
-
-# See the % Variance explained
-summary(my_PCA)
-summary_PCA <- format(round(as.data.frame(summary(my_PCA)[["importance"]]['Proportion of Variance',]) * 100, digits = 1), nsmall = 1) # format and round used to control the digits after the decimal place
-summary_PCA[1,1] # PC1 explains 33.8% of variance
-summary_PCA[2,1] # PC2 explains 23.2% of variance
-summary_PCA[3,1] # PC3 explains 15.3% of variance
-
-# MAKE PCA PLOT with GGPLOT 
-my_PCA_df <- as.data.frame(my_PCA$x[, 1:3]) # Extract the first 3 PCs
-my_PCA_df <- data.frame(SampleID = row.names(my_PCA_df), my_PCA_df)
-my_PCA_df <- merge(my_PCA_df, my_metadata, by = "SampleID", )
-
-fig_PC1vsPC2 <- my_PCA_df %>% 
-  mutate(Labelling = c("Captured broth", "Captured broth", "Captured broth", "Not captured broth", "Not captured broth", "Not captured broth", "W0 sputum", "W0 sputum", "W0 sputum", "W2 sputum", "W2 sputum", "W2 sputum")) %>%
-  ggplot(aes(x = PC1, y = PC2)) + 
-  geom_point(aes(fill = Labelling, shape = Labelling), size = 6, alpha = 0.8, stroke = 0.8) + 
-  scale_fill_manual(values=c(`W0 sputum` = "#0072B2", `W2 sputum` = "#E66900", `Captured broth`= "maroon", `Not captured broth`= "#999999")) +  
-  scale_shape_manual(values=c(`W0 sputum` = 21, `W2 sputum` = 22, `Captured broth`= 23, `Not captured broth`= 23)) + 
-  # geom_text_repel(aes(label = Week), size= 2.5, box.padding = 0.4, segment.color = NA, max.overlaps = Inf) + 
-  labs(title = "PCA Unique sputum >1M reads with captured and not captured broth",
-       # subtitle = "All normal Depletion, no thresholds",
-       x = paste0("PC1: ", summary_PCA[1,1], "%"),
-       y = paste0("PC2: ", summary_PCA[2,1], "%")) +
-  my_plot_themes
-# my_plot_themes_thumbnail
-fig_PC1vsPC2
-# ggplotly(fig_PC1vsPC2)
-ggsave(fig_PC1vsPC2,
-       file = "PCA_UniqueSputum1Mreads_With_Broth.pdf",
-       path = "PCA_Figures",
-       width = 8, height = 5, units = "in")
-
-
-# 3D plot
-# https://plotly.com/r/pca-visualization/
-PCA_3D <- my_PCA_df %>% 
-  mutate(Labelling = c("Captured broth", "Captured broth", "Captured broth", "Not captured broth", "Not captured broth", "Not captured broth", "W0 sputum", "W0 sputum", "W0 sputum", "W2 sputum", "W2 sputum", "W2 sputum")) %>%
-  plot_ly(x = ~PC1, y = ~PC2, z = ~PC3,
-                  type = "scatter3d", mode = "markers",
-                  color = ~Labelling# , 
-                  # colors = c12,
-                  # text = ~Replicate
-)
-PCA_3D
-# htmlwidgets::saveWidget(as_widget(PCA_3D), "PCA_3D.html")
-
+# mySubset_tpm <- All_tpm_NOTscaled %>% select(contains("Broth") | all_of(Unique_Sputum_1Mreads))
+# 
+# # Transform the data
+# mySubset_tpm_t <- as.data.frame(t(mySubset_tpm))
+# 
+# # Remove columns that are all zero so the scale works for prcomp
+# mySubset_tpm_t2 <- mySubset_tpm_t %>% select_if(colSums(.) != 0)
+# 
+# # Make the actual PCA
+# my_PCA <- prcomp(mySubset_tpm_t2, scale = TRUE)
+# 
+# # See the % Variance explained
+# summary(my_PCA)
+# summary_PCA <- format(round(as.data.frame(summary(my_PCA)[["importance"]]['Proportion of Variance',]) * 100, digits = 1), nsmall = 1) # format and round used to control the digits after the decimal place
+# summary_PCA[1,1] # PC1 explains 33.8% of variance
+# summary_PCA[2,1] # PC2 explains 23.2% of variance
+# summary_PCA[3,1] # PC3 explains 15.3% of variance
+# 
+# # MAKE PCA PLOT with GGPLOT 
+# my_PCA_df <- as.data.frame(my_PCA$x[, 1:3]) # Extract the first 3 PCs
+# my_PCA_df <- data.frame(SampleID = row.names(my_PCA_df), my_PCA_df)
+# my_PCA_df <- merge(my_PCA_df, my_metadata, by = "SampleID")
+# 
+# fig_PC1vsPC2 <- my_PCA_df %>% 
+#   mutate(Labelling = c("Captured broth", "Captured broth", "Captured broth", "Not captured broth", "Not captured broth", "Not captured broth", "W0 sputum", "W0 sputum", "W0 sputum", "W2 sputum", "W2 sputum", "W2 sputum")) %>%
+#   ggplot(aes(x = PC1, y = PC2)) + 
+#   geom_point(aes(fill = Labelling, shape = Labelling), size = 6, alpha = 0.8, stroke = 0.8) + 
+#   scale_fill_manual(values=c(`W0 sputum` = "#0072B2", `W2 sputum` = "#E66900", `Captured broth`= "maroon", `Not captured broth`= "#999999")) +  
+#   scale_shape_manual(values=c(`W0 sputum` = 21, `W2 sputum` = 22, `Captured broth`= 23, `Not captured broth`= 23)) + 
+#   # geom_text_repel(aes(label = Week), size= 2.5, box.padding = 0.4, segment.color = NA, max.overlaps = Inf) + 
+#   labs(title = "PCA Unique sputum >1M reads with captured and not captured broth",
+#        # subtitle = "All normal Depletion, no thresholds",
+#        x = paste0("PC1: ", summary_PCA[1,1], "%"),
+#        y = paste0("PC2: ", summary_PCA[2,1], "%")) +
+#   my_plot_themes
+# # my_plot_themes_thumbnail
+# fig_PC1vsPC2
+# # ggplotly(fig_PC1vsPC2)
+# ggsave(fig_PC1vsPC2,
+#        file = "PCA_UniqueSputum1Mreads_With_Broth.pdf",
+#        path = "PCA_Figures",
+#        width = 8, height = 5, units = "in")
+# 
+# 
+# # 3D plot
+# # https://plotly.com/r/pca-visualization/
+# PCA_3D <- my_PCA_df %>% 
+#   mutate(Labelling = c("Captured broth", "Captured broth", "Captured broth", "Not captured broth", "Not captured broth", "Not captured broth", "W0 sputum", "W0 sputum", "W0 sputum", "W2 sputum", "W2 sputum", "W2 sputum")) %>%
+#   plot_ly(x = ~PC1, y = ~PC2, z = ~PC3,
+#                   type = "scatter3d", mode = "markers",
+#                   color = ~Labelling# , 
+#                   # colors = c12,
+#                   # text = ~Replicate
+# )
+# PCA_3D
+# # htmlwidgets::saveWidget(as_widget(PCA_3D), "PCA_3D.html")
+# 
 
 
 ###########################################################
@@ -219,7 +221,7 @@ summary(my_PCA)
 summary_PCA <- format(round(as.data.frame(summary(my_PCA)[["importance"]]['Proportion of Variance',]) * 100, digits = 1), nsmall = 1) # format and round used to control the digits after the decimal place
 summary_PCA[1,1] # PC1 explains 62.9% of variance
 summary_PCA[2,1] # PC2 explains 17.4% of variance
-summary_PCA[3,1] # PC3 explains 8.0% of variance
+summary_PCA[3,1] # PC3 explains 7.8% of variance
 
 # MAKE PCA PLOT with GGPLOT 
 my_PCA_df <- as.data.frame(my_PCA$x[, 1:3]) # Extract the first 3 PCs
@@ -295,7 +297,7 @@ my_PCA_df <- merge(my_PCA_df, my_metadata, by = "SampleID", )
 
 fig_PC1vsPC2 <- my_PCA_df %>% 
   # mutate(Labelling = c("Not captured broth", "Not captured broth", "Not captured broth", "W0 sputum", "W2 sputum", "W2 sputum", "W0 sputum", "W0 sputum", "W2 sputum")) %>% # NEED TO CHECK BY HAND THAT THESE ARE CORRECT LABELS!
-  mutate(Labelling = c("Not captured broth", "Not captured broth", "Not captured broth", "W0 sputum", "W0 sputum", "W0 sputum", "W2 sputum", "W2 sputum", "W2 sputum")) %>% # NEED TO CHECK BY HAND THAT THESE ARE CORRECT LABELS!
+  mutate(Labelling = c("Not captured broth", "Not captured broth", "Not captured broth", "W0 sputum", "W2 sputum", "W2 sputum", "W0 sputum", "W0 sputum", "W2 sputum")) %>% # NEED TO CHECK BY HAND THAT THESE ARE CORRECT LABELS!
   ggplot(aes(x = PC1, y = PC2)) + 
   geom_point(aes(fill = Labelling, shape = Labelling), size = 6, alpha = 0.8, stroke = 0.8) + 
   scale_fill_manual(values=c(`W0 sputum` = "#0072B2", `W2 sputum` = "#E66900", `Not captured broth`= "#999999")) +  
@@ -313,11 +315,11 @@ fig_PC1vsPC2
 #        file = "PCA_UniqueSputum1Mreads_With_Broth_v2.pdf",
 #        path = "PCA_Figures",
 #        width = 8, height = 5, units = "in")
-ggsave(fig_PC1vsPC2,
-       file = "PCA_UniqueSputum1Mreads_With_Broth_v2.png",
-       path = "PCA_Figures",
-       dpi = 300,
-       width = 8, height = 5, units = "in")
+# ggsave(fig_PC1vsPC2,
+#        file = "PCA_UniqueSputum1Mreads_With_Broth_v2.png",
+#        path = "PCA_Figures",
+#        dpi = 300,
+#        width = 8, height = 5, units = "in")
 
 
 # 3D plot
@@ -338,7 +340,7 @@ PCA_3D
 # For poster
 fig_PC1vsPC2_poster <- my_PCA_df %>% 
   # mutate(Labelling = c("Not captured broth", "Not captured broth", "Not captured broth", "W0 sputum", "W2 sputum", "W2 sputum", "W0 sputum", "W0 sputum", "W2 sputum")) %>% # NEED TO CHECK BY HAND THAT THESE ARE CORRECT LABELS!
-  mutate(Labelling = c("Bacterial broth", "Bacterial broth", "Bacterial broth", "Week 0 sputum", "Week 0 sputum", "Week 0 sputum", "Week 2 sputum", "Week 2 sputum", "Week 2 sputum")) %>% # NEED TO CHECK BY HAND THAT THESE ARE CORRECT LABELS!
+  mutate(Labelling = c("Not captured broth", "Not captured broth", "Not captured broth", "W0 sputum", "W2 sputum", "W2 sputum", "W0 sputum", "W0 sputum", "W2 sputum")) %>% # NEED TO CHECK BY HAND THAT THESE ARE CORRECT LABELS!
   ggplot(aes(x = PC1, y = PC2)) + 
   geom_point(aes(fill = Labelling, shape = Labelling), size = 6, alpha = 0.8, stroke = 0.8) + 
   scale_fill_manual(values=c(`Week 0 sputum` = "#0072B2", `Week 2 sputum` = "#E66900", `Bacterial broth`= "#999999")) +  
@@ -395,7 +397,7 @@ my_PCA_df <- merge(my_PCA_df, my_metadata, by = "SampleID", )
 
 fig_PC1vsPC2 <- my_PCA_df %>% 
   # mutate(Labelling = c("Not captured broth", "Not captured broth", "Not captured broth", "W0 sputum", "W2 sputum", "W2 sputum", "W0 sputum", "W0 sputum", "W2 sputum")) %>% # NEED TO CHECK BY HAND THAT THESE ARE CORRECT LABELS!
-  mutate(Labelling = c("Not captured broth", "Not captured broth", "Not captured broth", "W0 sputum", "W0 sputum", "W0 sputum", "W2 sputum", "W2 sputum", "W2 sputum")) %>% # NEED TO CHECK BY HAND THAT THESE ARE CORRECT LABELS!
+  mutate(Labelling = c("Not captured broth", "Not captured broth", "Not captured broth", "W0 sputum", "W2 sputum", "W2 sputum", "W0 sputum", "W0 sputum", "W2 sputum")) %>% # NEED TO CHECK BY HAND THAT THESE ARE CORRECT LABELS!
   ggplot(aes(x = PC1, y = PC2)) + 
   geom_point(aes(fill = Labelling, shape = Labelling), size = 6, alpha = 0.8, stroke = 0.8) + 
   scale_fill_manual(values=c(`W0 sputum` = "#0072B2", `W2 sputum` = "#E66900", `Not captured broth`= "#999999")) +  

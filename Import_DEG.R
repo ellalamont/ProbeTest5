@@ -44,8 +44,8 @@ for (i in 1:length(list_dfs)) {
   current_df_name <- df_names[i]
   
   # Make the column pointing out which ones are differential expressed
-  current_df$DE <- ifelse(current_df$LOG2FOLD < -1 & current_df$AVG_PVALUE < 0.05, "significant down",
-                          ifelse(current_df$LOG2FOLD > 1 & current_df$AVG_PVALUE < 0.05, "significant up", "not significant"))
+  current_df$DE <- ifelse(current_df$LOG2FOLD < -2 & current_df$AVG_PVALUE < 0.05, "significant down",
+                          ifelse(current_df$LOG2FOLD > 2 & current_df$AVG_PVALUE < 0.05, "significant up", "not significant"))
   current_df$DE <- factor(current_df$DE, levels = ordered_DE)
   
   # Make the column with DE gene names for plotting on graph

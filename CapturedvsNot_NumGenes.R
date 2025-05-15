@@ -29,7 +29,7 @@ options(scipen = 0) # To revert back to default
 ###########################################################
 #################### ProbeTest5 TPM #######################
 
-ProbeTest5_tpm_2 <- ProbeTest5_tpm
+ProbeTest5_tpm_2 <- ProbeTest5_tpm_NOTscaled
 # Adjust the names so they are slightly shorter
 names(ProbeTest5_tpm_2) <- gsub(x = names(ProbeTest5_tpm_2), pattern = "_S.*", replacement = "") # This regular expression removes the _S and everything after it (I think...)
 
